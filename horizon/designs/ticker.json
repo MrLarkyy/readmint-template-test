@@ -162,7 +162,7 @@
                                                             {
                                                               "type": "text",
                                                               "x": 0,
-                                                              "y": 17.54,
+                                                              "y": 15.418,
                                                               "content": "{{ x.hash | truncate(7, \"\") }}",
                                                               "font": "mono",
                                                               "fontSize": 12,
@@ -179,7 +179,7 @@
                                                             {
                                                               "type": "text",
                                                               "x": 0,
-                                                              "y": 14.056,
+                                                              "y": 11.934,
                                                               "content": "{{ x.repository | upper | truncate(16) }}",
                                                               "font": "xbold",
                                                               "fontSize": 16,
@@ -196,7 +196,7 @@
                                                             {
                                                               "type": "text",
                                                               "x": 0,
-                                                              "y": 14.99,
+                                                              "y": 12.868,
                                                               "content": "{{ x.message | truncate(48) }}",
                                                               "font": "sc",
                                                               "fontSize": 15,
@@ -213,7 +213,7 @@
                                                             {
                                                               "type": "text",
                                                               "x": 0,
-                                                              "y": 17.54,
+                                                              "y": 15.418,
                                                               "content": "{{ ((x.date | date(\"yyyy-MM-dd\")) == d[n - 1].date ? \"today\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 2].date ? \"1d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 3].date ? \"2d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 4].date ? \"3d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 5].date ? \"4d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 6].date ? \"5d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 7].date ? \"6d\" : (x.date | date(\"MMM d\"))))))))) }}",
                                                               "font": "mono",
                                                               "fontSize": 12,
@@ -230,7 +230,7 @@
                                                             {
                                                               "type": "text",
                                                               "x": 0,
-                                                              "y": 14.99,
+                                                              "y": 12.868,
                                                               "content": "/",
                                                               "font": "xbold",
                                                               "fontSize": 15,
@@ -305,7 +305,7 @@
         {
           "type": "text",
           "x": 0,
-          "y": 14.99,
+          "y": 12.868,
           "content": "No commits to show yet.",
           "font": "sc",
           "fontSize": 15,

@@ -5,7 +5,7 @@
   "description": "Key facts in rows, with the languages of the public repositories and a bar of their shares.",
   "canvas": {
     "width": 840,
-    "height": 340
+    "height": 327
   },
   "assets": {
     "fonts": {
@@ -88,12 +88,12 @@
             {
               "type": "group",
               "x": 0,
-              "y": "{{ 48 + (i < props.languagesAfter ? i : i + (((github.languages | length | default(0)) > 0) ? 1 : 0)) * 36 }}",
+              "y": "{{ 35 + (i < props.languagesAfter ? i : i + (((github.languages | length | default(0)) > 0) ? 1 : 0)) * 36 }}",
               "children": [
                 {
                   "type": "text",
                   "x": 0,
-                  "y": 3.858,
+                  "y": 10.16,
                   "content": "{{ label | truncate(24) }}",
                   "font": "reg",
                   "fontSize": 13,
@@ -102,7 +102,7 @@
                 {
                   "type": "text",
                   "x": 170,
-                  "y": 1.99,
+                  "y": 8.292,
                   "content": "{{ props.values[i] | default(\"\") | truncate(80) }}",
                   "font": "reg",
                   "fontSize": 15,
@@ -123,13 +123,13 @@
         {
           "type": "group",
           "x": 0,
-          "y": "{{ 48 + (props.languagesAfter | clamp(0, (props.labels | length))) * 36 }}",
+          "y": "{{ 35 + (props.languagesAfter | clamp(0, (props.labels | length))) * 36 }}",
           "if": "{{ ((github.languages | length | default(0)) > 0) }}",
           "children": [
             {
               "type": "text",
               "x": 0,
-              "y": 3.858,
+              "y": 10.16,
               "content": "Languages",
               "font": "reg",
               "fontSize": 13,
@@ -156,7 +156,7 @@
                     {
                       "type": "text",
                       "x": 0,
-                      "y": 1.99,
+                      "y": 8.292,
                       "content": "{{ lang.name }} {{ lang.share * 100 | round }}%",
                       "font": "reg",
                       "fontSize": 15,
@@ -169,7 +169,7 @@
             {
               "type": "group",
               "x": "{{ 520 + 320 * (0) }}",
-              "y": 8,
+              "y": 15,
               "width": "{{ (320 * (github.languages[0].share | default(0)) - 2 | max(0)) | max(0.001) }}",
               "height": 5,
               "clip": true,
@@ -217,7 +217,7 @@
             {
               "type": "group",
               "x": "{{ 520 + 320 * ((github.languages[0].share | default(0))) }}",
-              "y": 8,
+              "y": 15,
               "width": "{{ (320 * (github.languages[1].share | default(0)) - 2 | max(0)) | max(0.001) }}",
               "height": 5,
               "clip": true,
@@ -265,7 +265,7 @@
             {
               "type": "group",
               "x": "{{ 520 + 320 * ((github.languages[0].share | default(0)) + (github.languages[1].share | default(0))) }}",
-              "y": 8,
+              "y": 15,
               "width": "{{ (320 * (github.languages[2].share | default(0)) - 2 | max(0)) | max(0.001) }}",
               "height": 5,
               "clip": true,
@@ -313,7 +313,7 @@
             {
               "type": "group",
               "x": "{{ 520 + 320 * ((github.languages[0].share | default(0)) + (github.languages[1].share | default(0)) + (github.languages[2].share | default(0))) }}",
-              "y": 8,
+              "y": 15,
               "width": "{{ (320 * (1 - (github.languages[0].share | default(0)) - (github.languages[1].share | default(0)) - (github.languages[2].share | default(0)) | max(0)) - 0 | max(0)) | max(0.001) }}",
               "height": 5,
               "clip": true,

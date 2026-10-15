@@ -109,7 +109,7 @@
         {
           "type": "text",
           "x": 16,
-          "y": 53.017,
+          "y": 51.6,
           "content": "build.gradle.kts",
           "font": "mono",
           "fontSize": 11.5,
