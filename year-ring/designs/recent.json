@@ -1,0 +1,374 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/design-v0.schema.json",
+  "version": 0,
+  "title": "Recent work",
+  "description": "The latest pushes of the last days: when, where, what, and how many lines came and went.",
+  "canvas": {
+    "width": 840,
+    "height": "{{ 52 + ((github.pushes | length | default(0) | min(6)) | max(1)) * 40 }}"
+  },
+  "assets": {
+    "fonts": {
+      "semi": {
+        "family": "Archivo SemiExpanded",
+        "src": "fonts/ArchivoSemiExpanded-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "reg": {
+        "family": "Archivo",
+        "src": "fonts/Archivo-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "bold": {
+        "family": "Archivo",
+        "src": "fonts/Archivo-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      }
+    }
+  },
+  "animation": {
+    "duration": 2400,
+    "loop": false
+  },
+  "components": {
+    "card": {
+      "props": {
+        "theme": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        }
+      },
+      "layers": [
+        {
+          "type": "text",
+          "x": 0,
+          "y": 9.726,
+          "content": "RECENT WORK",
+          "font": "semi",
+          "fontSize": 11,
+          "letterSpacing": 1.76,
+          "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "width": 840,
+          "align": "end",
+          "y": 9.726,
+          "content": "last 7 days",
+          "font": "reg",
+          "fontSize": 11,
+          "letterSpacing": 0.44,
+          "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 34,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
+        },
+        {
+          "type": "group",
+          "repeat": {
+            "each": "{{ [github.contributions.days] }}",
+            "as": "d"
+          },
+          "children": [
+            {
+              "type": "group",
+              "repeat": {
+                "each": "{{ [d | length] }}",
+                "as": "n"
+              },
+              "children": [
+                {
+                  "type": "group",
+                  "repeat": {
+                    "each": "{{ github.pushes }}",
+                    "as": "push",
+                    "index": "i"
+                  },
+                  "if": "{{ i < 6 }}",
+                  "children": [
+                    {
+                      "type": "group",
+                      "x": 0,
+                      "y": "{{ 48 + i * 40 }}",
+                      "children": [
+                        {
+                          "type": "text",
+                          "x": 0,
+                          "y": 6.858,
+                          "content": "{{ ((push.date | date(\"yyyy-MM-dd\")) == d[n - 1].date ? \"today\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 2].date ? \"yesterday\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 3].date ? \"2 days ago\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 4].date ? \"3 days ago\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 5].date ? \"4 days ago\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 6].date ? \"5 days ago\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 7].date ? \"6 days ago\" : (push.date | date(\"MMM d\"))))))))) }}",
+                          "font": "reg",
+                          "fontSize": 13,
+                          "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+                        },
+                        {
+                          "type": "group",
+                          "x": 100,
+                          "y": 0,
+                          "width": 88,
+                          "height": 30,
+                          "clip": true,
+                          "children": [
+                            {
+                              "type": "group",
+                              "x": -100,
+                              "y": 0,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "x": 100,
+                                  "y": 5.924,
+                                  "content": "{{ push.repository }}",
+                                  "font": "bold",
+                                  "fontSize": 14,
+                                  "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "group",
+                          "x": 196,
+                          "y": 0,
+                          "width": 440,
+                          "height": 30,
+                          "clip": true,
+                          "children": [
+                            {
+                              "type": "group",
+                              "x": -196,
+                              "y": 0,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "x": 196,
+                                  "y": 5.924,
+                                  "content": "{{ push.message | truncate(80) }}",
+                                  "font": "reg",
+                                  "fontSize": 14,
+                                  "fill": "{{ props.theme == \"dark\" ? \"#C3C8CF\" : \"#3B3F47\" }}"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "x": 552,
+                          "width": 200,
+                          "align": "end",
+                          "y": 7.792,
+                          "content": "{{ \"+\" + (push.additions | compact) + \" −\" + (push.deletions | compact) }}",
+                          "font": "reg",
+                          "fontSize": 12,
+                          "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+                        },
+                        {
+                          "type": "group",
+                          "x": 768,
+                          "y": 19,
+                          "children": [
+                            {
+                              "type": "group",
+                              "x": 0,
+                              "y": -7,
+                              "if": "{{ ((push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) > 0.5 }}",
+                              "children": [
+                                {
+                                  "type": "group",
+                                  "animate": {
+                                    "opacity": {
+                                      "keyframes": [
+                                        {
+                                          "offset": 0,
+                                          "value": 1
+                                        },
+                                        {
+                                          "offset": 0,
+                                          "value": 0
+                                        },
+                                        {
+                                          "offset": 1,
+                                          "value": 0
+                                        },
+                                        {
+                                          "offset": 1,
+                                          "value": 1
+                                        }
+                                      ],
+                                      "duration": "{{ 400 + i * 120 + 1 }}"
+                                    }
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "group",
+                                      "width": "{{ ((push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) | max(0.001) }}",
+                                      "height": 4,
+                                      "clip": true,
+                                      "children": [
+                                        {
+                                          "type": "rect",
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": "{{ ((push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) | max(0.001) }}",
+                                          "height": 4,
+                                          "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+                                          "animate": {
+                                            "x": {
+                                              "keyframes": [
+                                                {
+                                                  "offset": 0,
+                                                  "value": 0
+                                                },
+                                                {
+                                                  "offset": 0,
+                                                  "value": "{{ 0 - ((push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) }}"
+                                                },
+                                                {
+                                                  "offset": 1,
+                                                  "value": 0
+                                                }
+                                              ],
+                                              "duration": 900,
+                                              "delay": "{{ 400 + i * 120 }}"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "group",
+                              "x": "{{ (push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) + 1 }}",
+                              "y": -7,
+                              "if": "{{ (72 - (push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) > 0.5 }}",
+                              "children": [
+                                {
+                                  "type": "group",
+                                  "animate": {
+                                    "opacity": {
+                                      "keyframes": [
+                                        {
+                                          "offset": 0,
+                                          "value": 1
+                                        },
+                                        {
+                                          "offset": 0,
+                                          "value": 0
+                                        },
+                                        {
+                                          "offset": 1,
+                                          "value": 0
+                                        },
+                                        {
+                                          "offset": 1,
+                                          "value": 1
+                                        }
+                                      ],
+                                      "duration": "{{ 900 + i * 120 + 1 }}"
+                                    }
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "group",
+                                      "width": "{{ (72 - (push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) | max(0.001) }}",
+                                      "height": 4,
+                                      "clip": true,
+                                      "children": [
+                                        {
+                                          "type": "rect",
+                                          "x": 0,
+                                          "y": 0,
+                                          "width": "{{ (72 - (push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) | max(0.001) }}",
+                                          "height": 4,
+                                          "fill": "{{ props.theme == \"dark\" ? \"#5A616B\" : \"#A1A6AE\" }}",
+                                          "animate": {
+                                            "x": {
+                                              "keyframes": [
+                                                {
+                                                  "offset": 0,
+                                                  "value": 0
+                                                },
+                                                {
+                                                  "offset": 0,
+                                                  "value": "{{ 0 - (72 - (push.additions + push.deletions > 0 ? 72 * push.additions / (push.additions + push.deletions) : 36) - 1) }}"
+                                                },
+                                                {
+                                                  "offset": 1,
+                                                  "value": 0
+                                                }
+                                              ],
+                                              "duration": 600,
+                                              "delay": "{{ 900 + i * 120 }}"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rect",
+                          "x": 0,
+                          "y": 39,
+                          "width": 840,
+                          "height": 1,
+                          "fill": "{{ props.theme == \"dark\" ? \"#2A2F37\" : \"#DDE0E5\" }}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 54.858,
+          "content": "No recent pushes yet.",
+          "font": "reg",
+          "fontSize": 13,
+          "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}",
+          "if": "{{ !github.pushes[0] }}"
+        }
+      ]
+    }
+  },
+  "layers": [
+    {
+      "type": "component",
+      "ref": "card",
+      "props": {
+        "theme": "light"
+      }
+    }
+  ]
+}

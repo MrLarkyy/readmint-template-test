@@ -1,0 +1,188 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/design-v0.schema.json",
+  "version": 0,
+  "title": "Footer",
+  "description": "A closing line, a note and how to reach the person, with the date of this render.",
+  "canvas": {
+    "width": 840,
+    "height": 150
+  },
+  "assets": {
+    "fonts": {
+      "g": {
+        "family": "Geist",
+        "src": "fonts/Geist-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "gs": {
+        "family": "Geist",
+        "src": "fonts/Geist-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "mono": {
+        "family": "Geist Mono",
+        "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      }
+    }
+  },
+  "components": {
+    "card": {
+      "props": {
+        "theme": {
+          "type": "enum",
+          "values": [
+            "light",
+            "dark"
+          ],
+          "default": "light"
+        },
+        "headline": {
+          "type": "string",
+          "default": ""
+        },
+        "note": {
+          "type": "string",
+          "default": ""
+        },
+        "contactLabel": {
+          "type": "string",
+          "default": ""
+        },
+        "contactText": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "layers": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
+        },
+        {
+          "type": "group",
+          "x": 0,
+          "y": 20,
+          "width": 560,
+          "height": 56,
+          "clip": true,
+          "if": "{{ props.headline }}",
+          "children": [
+            {
+              "type": "group",
+              "x": 0,
+              "y": -20,
+              "children": [
+                {
+                  "type": "text",
+                  "x": -1,
+                  "y": 33.44,
+                  "content": "{{ props.headline }}",
+                  "font": "gs",
+                  "fontSize": 32,
+                  "letterSpacing": -0.96,
+                  "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "x": 0,
+          "y": 76,
+          "width": 560,
+          "height": 26,
+          "clip": true,
+          "if": "{{ props.note }}",
+          "children": [
+            {
+              "type": "group",
+              "x": 0,
+              "y": -76,
+              "children": [
+                {
+                  "type": "text",
+                  "x": 0,
+                  "y": 78.72,
+                  "content": "{{ props.note }}",
+                  "font": "g",
+                  "fontSize": 16,
+                  "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "x": 580,
+          "width": 260,
+          "align": "end",
+          "y": 49.495,
+          "content": "{{ props.contactLabel || \"github\" | truncate(30) }}",
+          "font": "mono",
+          "fontSize": 11,
+          "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+        },
+        {
+          "type": "text",
+          "x": 540,
+          "width": 300,
+          "align": "end",
+          "y": 72.63,
+          "content": "{{ (props.contactText || \"github.com/\" + github.login) | truncate(34) }}",
+          "font": "mono",
+          "fontSize": 14,
+          "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+        },
+        {
+          "type": "rect",
+          "x": "{{ 840 - ((props.contactText || \"github.com/\" + github.login) | truncate(34) | length) * 8.4 }}",
+          "y": 92.25,
+          "width": "{{ ((props.contactText || \"github.com/\" + github.login) | truncate(34) | length) * 8.4 }}",
+          "height": 1.5,
+          "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\" }}"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 127.972,
+          "content": "{{ \"rendered by readmint · \" + (github.contributions.to | date(\"d MMM yyyy\") | lower) }}",
+          "font": "mono",
+          "fontSize": 10.5,
+          "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
+        }
+      ]
+    }
+  },
+  "layers": [
+    {
+      "type": "component",
+      "ref": "card",
+      "props": {
+        "theme": "light",
+        "headline": "Open to long-term collaborations.",
+        "note": "Backend-heavy projects, tooling and infrastructure.",
+        "contactLabel": "reach me",
+        "contactText": "discord.aquatic.gg"
+      }
+    }
+  ]
+}

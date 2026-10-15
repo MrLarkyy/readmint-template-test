@@ -1,0 +1,83 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/design-v0.schema.json",
+  "version": 0,
+  "title": "Selected work",
+  "description": "The heading of the repositories below, each written as a Kotlin object.",
+  "canvas": {
+    "width": 840,
+    "height": 40
+  },
+  "assets": {
+    "fonts": {
+      "gs": {
+        "family": "Geist",
+        "src": "fonts/Geist-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "mono": {
+        "family": "Geist Mono",
+        "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      }
+    }
+  },
+  "components": {
+    "card": {
+      "props": {
+        "theme": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        }
+      },
+      "layers": [
+        {
+          "type": "text",
+          "x": 0,
+          "y": 5.675,
+          "content": "Selected work",
+          "font": "gs",
+          "fontSize": 15,
+          "letterSpacing": -0.15,
+          "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "width": 840,
+          "align": "end",
+          "y": 9.495,
+          "content": "*.kt",
+          "font": "mono",
+          "fontSize": 11,
+          "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 34,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
+        }
+      ]
+    }
+  },
+  "layers": [
+    {
+      "type": "component",
+      "ref": "card",
+      "props": {
+        "theme": "dark"
+      }
+    }
+  ]
+}

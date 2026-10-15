@@ -1,0 +1,84 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/design-v0.schema.json",
+  "version": 0,
+  "title": "Selected work",
+  "description": "The heading of the repositories below: each shows its last 52 weeks of commits.",
+  "canvas": {
+    "width": 840,
+    "height": 40
+  },
+  "assets": {
+    "fonts": {
+      "semi": {
+        "family": "Archivo SemiExpanded",
+        "src": "fonts/ArchivoSemiExpanded-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "reg": {
+        "family": "Archivo",
+        "src": "fonts/Archivo-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      }
+    }
+  },
+  "components": {
+    "card": {
+      "props": {
+        "theme": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        }
+      },
+      "layers": [
+        {
+          "type": "text",
+          "x": 0,
+          "y": 9.726,
+          "content": "SELECTED WORK",
+          "font": "semi",
+          "fontSize": 11,
+          "letterSpacing": 1.76,
+          "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "width": 840,
+          "align": "end",
+          "y": 9.726,
+          "content": "52 weeks of commits per repository",
+          "font": "reg",
+          "fontSize": 11,
+          "letterSpacing": 0.44,
+          "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 34,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
+        }
+      ]
+    }
+  },
+  "layers": [
+    {
+      "type": "component",
+      "ref": "card",
+      "props": {
+        "theme": "dark"
+      }
+    }
+  ]
+}

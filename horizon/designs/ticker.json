@@ -1,0 +1,335 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/design-v0.schema.json",
+  "version": 0,
+  "title": "Latest pushes",
+  "description": "The latest pushes run past endlessly: commit, repository, message and when.",
+  "canvas": {
+    "width": 840,
+    "height": 44
+  },
+  "assets": {
+    "fonts": {
+      "xbold": {
+        "family": "Archivo ExtraCondensed",
+        "src": "fonts/ArchivoExtraCondensed-Bold.ttf",
+        "weight": 700,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "sc": {
+        "family": "Archivo SemiCondensed",
+        "src": "fonts/ArchivoSemiCondensed-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "mono": {
+        "family": "Geist Mono",
+        "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      }
+    }
+  },
+  "animation": {
+    "duration": 60000,
+    "loop": true
+  },
+  "components": {
+    "card": {
+      "props": {
+        "theme": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        }
+      },
+      "layers": [
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 0,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}"
+        },
+        {
+          "type": "group",
+          "repeat": {
+            "each": "{{ [github.contributions.days] }}",
+            "as": "d"
+          },
+          "children": [
+            {
+              "type": "group",
+              "repeat": {
+                "each": "{{ [d | length] }}",
+                "as": "n"
+              },
+              "children": [
+                {
+                  "type": "group",
+                  "repeat": {
+                    "each": "{{ [[(github.pushes[0] ? (64 + (github.pushes[0].repository | truncate(16) | length) * 7.8 + 9.6 + (github.pushes[0].message | truncate(48) | length) * 6.7 + 9 + 43 + 13.5 + 6 + 28) : 0), (github.pushes[1] ? (64 + (github.pushes[1].repository | truncate(16) | length) * 7.8 + 9.6 + (github.pushes[1].message | truncate(48) | length) * 6.7 + 9 + 43 + 13.5 + 6 + 28) : 0), (github.pushes[2] ? (64 + (github.pushes[2].repository | truncate(16) | length) * 7.8 + 9.6 + (github.pushes[2].message | truncate(48) | length) * 6.7 + 9 + 43 + 13.5 + 6 + 28) : 0), (github.pushes[3] ? (64 + (github.pushes[3].repository | truncate(16) | length) * 7.8 + 9.6 + (github.pushes[3].message | truncate(48) | length) * 6.7 + 9 + 43 + 13.5 + 6 + 28) : 0), (github.pushes[4] ? (64 + (github.pushes[4].repository | truncate(16) | length) * 7.8 + 9.6 + (github.pushes[4].message | truncate(48) | length) * 6.7 + 9 + 43 + 13.5 + 6 + 28) : 0), (github.pushes[5] ? (64 + (github.pushes[5].repository | truncate(16) | length) * 7.8 + 9.6 + (github.pushes[5].message | truncate(48) | length) * 6.7 + 9 + 43 + 13.5 + 6 + 28) : 0)]] }}",
+                    "as": "sw"
+                  },
+                  "children": [
+                    {
+                      "type": "group",
+                      "repeat": {
+                        "each": "{{ [sw[0] + sw[1] + sw[2] + sw[3] + sw[4] + sw[5] | max(1)] }}",
+                        "as": "W1"
+                      },
+                      "children": [
+                        {
+                          "type": "group",
+                          "repeat": {
+                            "each": "{{ [2520 / W1 | round | max(1)] }}",
+                            "as": "m"
+                          },
+                          "children": [
+                            {
+                              "type": "group",
+                              "y": 0,
+                              "children": [
+                                {
+                                  "type": "group",
+                                  "animate": {
+                                    "x": {
+                                      "keyframes": [
+                                        {
+                                          "offset": 0,
+                                          "value": 0
+                                        },
+                                        {
+                                          "offset": 1,
+                                          "value": "{{ 0 - m * W1 }}"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "group",
+                                      "repeat": {
+                                        "each": "{{ [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39] }}",
+                                        "as": "c"
+                                      },
+                                      "if": "{{ c * W1 < 850 + m * W1 }}",
+                                      "children": [
+                                        {
+                                          "type": "group",
+                                          "x": "{{ c * W1 }}",
+                                          "children": [
+                                            {
+                                              "type": "group",
+                                              "repeat": {
+                                                "each": "{{ github.pushes }}",
+                                                "as": "x",
+                                                "index": "i"
+                                              },
+                                              "if": "{{ i < 6 }}",
+                                              "children": [
+                                                {
+                                                  "type": "group",
+                                                  "x": "{{ (i > 0 ? sw[0] : 0) + (i > 1 ? sw[1] : 0) + (i > 2 ? sw[2] : 0) + (i > 3 ? sw[3] : 0) + (i > 4 ? sw[4] : 0) }}",
+                                                  "y": 0,
+                                                  "width": "{{ sw[i] | max(1) }}",
+                                                  "height": 44,
+                                                  "clip": true,
+                                                  "children": [
+                                                    {
+                                                      "type": "group",
+                                                      "x": "{{ 0 - ((i > 0 ? sw[0] : 0) + (i > 1 ? sw[1] : 0) + (i > 2 ? sw[2] : 0) + (i > 3 ? sw[3] : 0) + (i > 4 ? sw[4] : 0)) }}",
+                                                      "y": 0,
+                                                      "children": [
+                                                        {
+                                                          "type": "group",
+                                                          "x": "{{ (i > 0 ? sw[0] : 0) + (i > 1 ? sw[1] : 0) + (i > 2 ? sw[2] : 0) + (i > 3 ? sw[3] : 0) + (i > 4 ? sw[4] : 0) }}",
+                                                          "layout": {
+                                                            "type": "stack",
+                                                            "direction": "row",
+                                                            "gap": 0
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "type": "text",
+                                                              "x": 0,
+                                                              "y": 17.54,
+                                                              "content": "{{ x.hash | truncate(7, \"\") }}",
+                                                              "font": "mono",
+                                                              "fontSize": 12,
+                                                              "fill": "{{ props.theme == \"dark\" ? \"#FF8A3D\" : \"#E8590C\" }}"
+                                                            },
+                                                            {
+                                                              "type": "rect",
+                                                              "x": 0,
+                                                              "y": 0,
+                                                              "width": 3.6,
+                                                              "height": 1,
+                                                              "fill": "none"
+                                                            },
+                                                            {
+                                                              "type": "text",
+                                                              "x": 0,
+                                                              "y": 14.056,
+                                                              "content": "{{ x.repository | upper | truncate(16) }}",
+                                                              "font": "xbold",
+                                                              "fontSize": 16,
+                                                              "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}"
+                                                            },
+                                                            {
+                                                              "type": "rect",
+                                                              "x": 0,
+                                                              "y": 0,
+                                                              "width": 9.6,
+                                                              "height": 1,
+                                                              "fill": "none"
+                                                            },
+                                                            {
+                                                              "type": "text",
+                                                              "x": 0,
+                                                              "y": 14.99,
+                                                              "content": "{{ x.message | truncate(48) }}",
+                                                              "font": "sc",
+                                                              "fontSize": 15,
+                                                              "fill": "{{ props.theme == \"dark\" ? \"#CFCBC4\" : \"#3A3A3A\" }}"
+                                                            },
+                                                            {
+                                                              "type": "rect",
+                                                              "x": 0,
+                                                              "y": 0,
+                                                              "width": 9,
+                                                              "height": 1,
+                                                              "fill": "none"
+                                                            },
+                                                            {
+                                                              "type": "text",
+                                                              "x": 0,
+                                                              "y": 17.54,
+                                                              "content": "{{ ((x.date | date(\"yyyy-MM-dd\")) == d[n - 1].date ? \"today\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 2].date ? \"1d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 3].date ? \"2d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 4].date ? \"3d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 5].date ? \"4d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 6].date ? \"5d\" : ((x.date | date(\"yyyy-MM-dd\")) == d[n - 7].date ? \"6d\" : (x.date | date(\"MMM d\"))))))))) }}",
+                                                              "font": "mono",
+                                                              "fontSize": 12,
+                                                              "fill": "{{ props.theme == \"dark\" ? \"#948F88\" : \"#6E6E6E\" }}"
+                                                            },
+                                                            {
+                                                              "type": "rect",
+                                                              "x": 0,
+                                                              "y": 0,
+                                                              "width": 13.5,
+                                                              "height": 1,
+                                                              "fill": "none"
+                                                            },
+                                                            {
+                                                              "type": "text",
+                                                              "x": 0,
+                                                              "y": 14.99,
+                                                              "content": "/",
+                                                              "font": "xbold",
+                                                              "fontSize": 15,
+                                                              "fill": "{{ props.theme == \"dark\" ? \"#5E5A55\" : \"#A8A8A8\" }}"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 1,
+          "width": 59,
+          "height": 42,
+          "fill": {
+            "type": "linear",
+            "stops": [
+              {
+                "offset": 0,
+                "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") }}"
+              },
+              {
+                "offset": 1,
+                "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"00\" }}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "rect",
+          "x": 781,
+          "y": 1,
+          "width": 59,
+          "height": 42,
+          "fill": {
+            "type": "linear",
+            "stops": [
+              {
+                "offset": 0,
+                "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"00\" }}"
+              },
+              {
+                "offset": 1,
+                "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") }}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 14.99,
+          "content": "No commits to show yet.",
+          "font": "sc",
+          "fontSize": 15,
+          "fill": "{{ props.theme == \"dark\" ? \"#948F88\" : \"#6E6E6E\" }}",
+          "if": "{{ !github.pushes[0] }}"
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 43,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#2A2C30\" : \"#E2E2E2\" }}"
+        }
+      ]
+    }
+  },
+  "layers": [
+    {
+      "type": "component",
+      "ref": "card",
+      "props": {
+        "theme": "light"
+      }
+    }
+  ]
+}

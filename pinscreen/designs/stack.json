@@ -1,0 +1,458 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/design-v0.schema.json",
+  "version": 0,
+  "title": "Stack",
+  "description": "The stack behind the work as a build file, with the languages of the public repositories as bars beside it.",
+  "canvas": {
+    "width": 840,
+    "height": 396
+  },
+  "assets": {
+    "fonts": {
+      "gs": {
+        "family": "Geist",
+        "src": "fonts/Geist-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "mono": {
+        "family": "Geist Mono",
+        "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      }
+    }
+  },
+  "animation": {
+    "duration": 2000,
+    "loop": false
+  },
+  "components": {
+    "card": {
+      "props": {
+        "theme": {
+          "type": "enum",
+          "values": [
+            "light",
+            "dark"
+          ],
+          "default": "light"
+        },
+        "plugin": {
+          "type": "string",
+          "default": ""
+        },
+        "labels": {
+          "type": "array",
+          "default": []
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "noteLabels": {
+          "type": "array",
+          "default": []
+        },
+        "noteItems": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "layers": [
+        {
+          "type": "text",
+          "x": 0,
+          "y": 5.675,
+          "content": "Stack",
+          "font": "gs",
+          "fontSize": 15,
+          "letterSpacing": -0.15,
+          "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "width": 840,
+          "align": "end",
+          "y": 9.495,
+          "content": "build.gradle.kts",
+          "font": "mono",
+          "fontSize": 11,
+          "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 34,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
+        },
+        {
+          "type": "rect",
+          "x": 0.5,
+          "y": 40.5,
+          "width": 839,
+          "height": 355,
+          "fill": "{{ props.theme == \"dark\" ? \"#12161d\" : \"#FAFAFA\" }}",
+          "radius": 10,
+          "stroke": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}",
+          "strokeWidth": 1
+        },
+        {
+          "type": "text",
+          "x": 16,
+          "y": 53.017,
+          "content": "build.gradle.kts",
+          "font": "mono",
+          "fontSize": 11.5,
+          "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\" }}"
+        },
+        {
+          "type": "rect",
+          "x": 0,
+          "y": 76,
+          "width": 840,
+          "height": 1,
+          "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
+        },
+        {
+          "type": "group",
+          "repeat": {
+            "each": "{{ [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] }}",
+            "as": "li"
+          },
+          "if": "{{ li < (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + (props.noteLabels | length | min(3))) }}",
+          "children": [
+            {
+              "type": "text",
+              "x": 16,
+              "y": "{{ 96 + li * 20 - 10.505 }}",
+              "content": "{{ li + 1 }}",
+              "font": "mono",
+              "fontSize": 11,
+              "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "x": "{{ 44 + (0) * 6.9 }}",
+          "y": 85.017,
+          "content": "// build.gradle.kts, the stack behind my work",
+          "font": "mono",
+          "fontSize": 11.5,
+          "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+        },
+        {
+          "type": "group",
+          "if": "{{ props.plugin }}",
+          "children": [
+            {
+              "type": "text",
+              "x": "{{ 44 + (0) * 6.9 }}",
+              "y": 105.017,
+              "content": "plugins",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+            },
+            {
+              "type": "text",
+              "x": "{{ 44 + (8) * 6.9 }}",
+              "y": 105.017,
+              "content": "{",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+            },
+            {
+              "type": "text",
+              "x": "{{ 44 + (4) * 6.9 }}",
+              "y": 125.017,
+              "content": "{{ props.plugin | truncate(40) }}",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#FFC66D\" : \"#00627A\" }}"
+            },
+            {
+              "type": "text",
+              "x": "{{ 44 + (0) * 6.9 }}",
+              "y": 145.018,
+              "content": "}",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "if": "{{ (props.labels | length | min(4)) > 0 }}",
+          "children": [
+            {
+              "type": "text",
+              "x": "{{ 44 + (0) * 6.9 }}",
+              "y": "{{ 96 + (1 + (props.plugin ? 4 : 0)) * 20 - 10.982 }}",
+              "content": "dependencies",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+            },
+            {
+              "type": "text",
+              "x": "{{ 44 + (13) * 6.9 }}",
+              "y": "{{ 96 + (1 + (props.plugin ? 4 : 0)) * 20 - 10.982 }}",
+              "content": "{",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+            },
+            {
+              "type": "group",
+              "repeat": {
+                "each": "{{ props.labels }}",
+                "as": "gl",
+                "index": "gi"
+              },
+              "if": "{{ gi < 4 }}",
+              "children": [
+                {
+                  "type": "text",
+                  "x": "{{ 44 + (4) * 6.9 }}",
+                  "y": "{{ 96 + (2 + (props.plugin ? 4 : 0) + gi) * 20 - 10.982 }}",
+                  "content": "implementation",
+                  "font": "mono",
+                  "fontSize": 11.5,
+                  "fill": "{{ props.theme == \"dark\" ? \"#FFC66D\" : \"#00627A\" }}"
+                },
+                {
+                  "type": "text",
+                  "x": "{{ 44 + (18) * 6.9 }}",
+                  "y": "{{ 96 + (2 + (props.plugin ? 4 : 0) + gi) * 20 - 10.982 }}",
+                  "content": "(",
+                  "font": "mono",
+                  "fontSize": 11.5,
+                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                },
+                {
+                  "type": "text",
+                  "x": "{{ 44 + (19) * 6.9 }}",
+                  "y": "{{ 96 + (2 + (props.plugin ? 4 : 0) + gi) * 20 - 10.982 }}",
+                  "content": "{{ (props.items[gi] | default(\"\") | truncate(40)) }}",
+                  "font": "mono",
+                  "fontSize": 11.5,
+                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                },
+                {
+                  "type": "text",
+                  "x": "{{ 44 + (19 + ((props.items[gi] | default(\"\") | truncate(40)) | length)) * 6.9 }}",
+                  "y": "{{ 96 + (2 + (props.plugin ? 4 : 0) + gi) * 20 - 10.982 }}",
+                  "content": ")",
+                  "font": "mono",
+                  "fontSize": 11.5,
+                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                },
+                {
+                  "type": "text",
+                  "x": "{{ 44 + ((4 + 15 + (((props.items[0] | default(\"\") | truncate(40)) | length) | max((props.items[1] | default(\"\") | truncate(40)) | length) | max((props.items[2] | default(\"\") | truncate(40)) | length) | max((props.items[3] | default(\"\") | truncate(40)) | length)) + 3)) * 6.9 }}",
+                  "y": "{{ 96 + (2 + (props.plugin ? 4 : 0) + gi) * 20 - 10.982 }}",
+                  "content": "{{ \"// \" + (gl | truncate(24)) }}",
+                  "font": "mono",
+                  "fontSize": 11.5,
+                  "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "x": "{{ 44 + (0) * 6.9 }}",
+              "y": "{{ 96 + (2 + (props.plugin ? 4 : 0) + (props.labels | length | min(4))) * 20 - 10.982 }}",
+              "content": "}",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "repeat": {
+            "each": "{{ props.noteLabels }}",
+            "as": "nl",
+            "index": "ni"
+          },
+          "if": "{{ ni < 3 }}",
+          "children": [
+            {
+              "type": "text",
+              "x": "{{ 44 + (0) * 6.9 }}",
+              "y": "{{ 96 + (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + ni) * 20 - 10.982 }}",
+              "content": "{{ \"// \" + (nl | truncate(20)) + \": \" + (props.noteItems[ni] | default(\"\") | truncate(60)) }}",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+            }
+          ]
+        },
+        {
+          "type": "rect",
+          "x": 620,
+          "y": 92,
+          "width": 1,
+          "height": 284,
+          "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
+        },
+        {
+          "type": "text",
+          "x": 640,
+          "y": 89.017,
+          "content": "// languages",
+          "font": "mono",
+          "fontSize": 11.5,
+          "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+        },
+        {
+          "type": "group",
+          "repeat": {
+            "each": "{{ [github.languages[0], github.languages[1], github.languages[2], github.languages[3]] }}",
+            "as": "lang",
+            "index": "j"
+          },
+          "if": "{{ lang }}",
+          "children": [
+            {
+              "type": "text",
+              "x": 640,
+              "y": "{{ 132 + j * 36 - 10.982 }}",
+              "content": "{{ lang.name | truncate(18) }}",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+            },
+            {
+              "type": "text",
+              "x": 740,
+              "width": 80,
+              "align": "end",
+              "y": "{{ 132 + j * 36 - 10.982 }}",
+              "content": "{{ lang.share * 100 | number(1) }}%",
+              "font": "mono",
+              "fontSize": 11.5,
+              "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+            },
+            {
+              "type": "rect",
+              "x": 640,
+              "y": "{{ 139 + j * 36 }}",
+              "width": 176,
+              "height": 4,
+              "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}",
+              "radius": 2
+            },
+            {
+              "type": "group",
+              "repeat": {
+                "each": "{{ [176 * lang.share | max(2)] }}",
+                "as": "bw"
+              },
+              "children": [
+                {
+                  "type": "group",
+                  "x": 640,
+                  "y": "{{ 139 + j * 36 }}",
+                  "width": "{{ bw }}",
+                  "height": 4,
+                  "clip": true,
+                  "children": [
+                    {
+                      "type": "group",
+                      "x": -640,
+                      "y": "{{ 0 - (139 + j * 36) }}",
+                      "children": [
+                        {
+                          "type": "rect",
+                          "x": 640,
+                          "y": "{{ 139 + j * 36 }}",
+                          "width": "{{ bw }}",
+                          "height": 4,
+                          "fill": "{{ j == 0 ? (props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\") : (props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\") }}",
+                          "radius": 2,
+                          "animate": {
+                            "x": {
+                              "keyframes": [
+                                {
+                                  "offset": 0,
+                                  "value": 0
+                                },
+                                {
+                                  "offset": 0,
+                                  "value": "{{ 0 - bw }}"
+                                },
+                                {
+                                  "offset": 1,
+                                  "value": 0,
+                                  "easing": {
+                                    "x1": 0.2,
+                                    "y1": 0.8,
+                                    "x2": 0.3,
+                                    "y2": 1
+                                  }
+                                }
+                              ],
+                              "duration": 1000,
+                              "delay": "{{ 400 + j * 200 }}"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "layers": [
+    {
+      "type": "component",
+      "ref": "card",
+      "props": {
+        "theme": "light",
+        "plugin": "kotlin(\"jvm\")",
+        "labels": [
+          "frameworks",
+          "messaging",
+          "storage",
+          "wire format"
+        ],
+        "items": [
+          "ktor, spring",
+          "redis, rabbitmq, nats",
+          "postgresql, mysql, mariadb, sqlite",
+          "protobuf"
+        ],
+        "noteLabels": [
+          "tools",
+          "shipped for",
+          "creators"
+        ],
+        "noteItems": [
+          "IntelliJ IDEA, Rider, WebStorm, Gradle",
+          "Hoplite, Minebox, Cobblemon Islands, Mineclub",
+          "MrBeast, SpeedSilver, DiamondXR"
+        ]
+      }
+    }
+  ]
+}
