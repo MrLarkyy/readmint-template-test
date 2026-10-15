@@ -1,6 +1,7 @@
 # Horizon
 
 Rendered by Readmint with live data of MrLarkyy. Designs with the personal texts filled in are in [designs/](designs/).
+How to use them and the props of each section: [the template README](https://github.com/MrLarkyy/Readmint/tree/main/packages/components/templates/profiles/horizon).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="readmint/header.dark.svg">
