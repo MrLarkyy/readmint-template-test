@@ -1,0 +1,70 @@
+name: Readmint
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: readmint
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Render year-ring
+        uses: MrLarkyy/Readmint@v0.1.0
+        with:
+          output-dir: year-ring/readmint
+          commit-message: "Update year-ring graphics"
+          designs: |
+            year-ring/designs/footer.json
+            year-ring/designs/header.json
+            year-ring/designs/index.json
+            year-ring/designs/recent.json
+            year-ring/designs/repo-1.json
+            year-ring/designs/repo-2.json
+            year-ring/designs/repo-3.json
+            year-ring/designs/repo-4.json
+            year-ring/designs/repo-5.json
+            year-ring/designs/repo-6.json
+            year-ring/designs/work.json
+            year-ring/designs/year.json
+      - name: Render horizon
+        uses: MrLarkyy/Readmint@v0.1.0
+        with:
+          output-dir: horizon/readmint
+          commit-message: "Update horizon graphics"
+          designs: |
+            horizon/designs/footer.json
+            horizon/designs/header.json
+            horizon/designs/repo-1.json
+            horizon/designs/repo-2.json
+            horizon/designs/repo-3.json
+            horizon/designs/repo-4.json
+            horizon/designs/repo-5.json
+            horizon/designs/repo-6.json
+            horizon/designs/stack.json
+            horizon/designs/ticker.json
+            horizon/designs/work.json
+            horizon/designs/worked.json
+            horizon/designs/year.json
+      - name: Render pinscreen
+        uses: MrLarkyy/Readmint@v0.1.0
+        with:
+          output-dir: pinscreen/readmint
+          commit-message: "Update pinscreen graphics"
+          designs: |
+            pinscreen/designs/footer.json
+            pinscreen/designs/header.json
+            pinscreen/designs/log.json
+            pinscreen/designs/repo-1.json
+            pinscreen/designs/repo-2.json
+            pinscreen/designs/repo-3.json
+            pinscreen/designs/repo-4.json
+            pinscreen/designs/repo-5.json
+            pinscreen/designs/repo-6.json
+            pinscreen/designs/stack.json
+            pinscreen/designs/work.json
+            pinscreen/designs/year.json
