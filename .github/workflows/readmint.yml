@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Render year-ring
-        uses: MrLarkyy/Readmint@v0.1.0
+        uses: MrLarkyy/Readmint@v0.2.0
         with:
           output-dir: year-ring/readmint
           commit-message: "Update year-ring graphics"
@@ -37,7 +37,7 @@ jobs:
             year-ring/designs/work.json
             year-ring/designs/year.json
       - name: Render horizon
-        uses: MrLarkyy/Readmint@v0.1.0
+        uses: MrLarkyy/Readmint@v0.2.0
         with:
           output-dir: horizon/readmint
           commit-message: "Update horizon graphics"
@@ -56,7 +56,7 @@ jobs:
             horizon/designs/worked.json
             horizon/designs/year.json
       - name: Render pinscreen
-        uses: MrLarkyy/Readmint@v0.1.0
+        uses: MrLarkyy/Readmint@v0.2.0
         with:
           output-dir: pinscreen/readmint
           commit-message: "Update pinscreen graphics"
