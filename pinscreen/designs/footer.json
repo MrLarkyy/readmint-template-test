@@ -43,10 +43,7 @@
       "props": {
         "theme": {
           "type": "enum",
-          "values": [
-            "light",
-            "dark"
-          ],
+          "values": ["light", "dark"],
           "default": "light"
         },
         "headline": {
@@ -147,16 +144,16 @@
           "width": 300,
           "align": "end",
           "y": 72.63,
-          "content": "{{ (props.contactText || \"github.com/\" + github.login) | truncate(34) }}",
+          "content": "{{ (props.contactText || \"github.com/\" + github.login) | truncate(34) | truncateWidth(300, \"mono\", 14) }}",
           "font": "mono",
           "fontSize": 14,
           "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
         },
         {
           "type": "rect",
-          "x": "{{ 840 - ((props.contactText || \"github.com/\" + github.login) | truncate(34) | length) * 8.4 }}",
+          "x": "{{ 840 - ((props.contactText || \"github.com/\" + github.login) | truncate(34) | truncateWidth(300, \"mono\", 14) | textWidth(\"mono\", 14)) }}",
           "y": 92.25,
-          "width": "{{ ((props.contactText || \"github.com/\" + github.login) | truncate(34) | length) * 8.4 }}",
+          "width": "{{ ((props.contactText || \"github.com/\" + github.login) | truncate(34) | truncateWidth(300, \"mono\", 14) | textWidth(\"mono\", 14)) }}",
           "height": 1.5,
           "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\" }}"
         },
@@ -177,11 +174,7 @@
       "type": "component",
       "ref": "card",
       "props": {
-        "theme": "light",
-        "headline": "Open to long-term collaborations.",
-        "note": "Backend-heavy projects, tooling and infrastructure.",
-        "contactLabel": "reach me",
-        "contactText": "discord.aquatic.gg"
+        "theme": "light"
       }
     }
   ]

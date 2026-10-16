@@ -56,10 +56,7 @@
       "props": {
         "theme": {
           "type": "enum",
-          "values": [
-            "light",
-            "dark"
-          ],
+          "values": ["light", "dark"],
           "default": "light"
         },
         "role": {
@@ -114,7 +111,7 @@
             {
               "type": "group",
               "repeat": {
-                "each": "{{ [840 / ((nm | length) * 0.452 | max(1)) | min(124) | round(1)] }}",
+                "each": "{{ [(8400 / ((nm | textWidth(\"xb\", 1, -0.01)) | max(0.01)) | floor) / 10 | min(124)] }}",
                 "as": "fs"
               },
               "children": [
@@ -618,7 +615,7 @@
                       "type": "text",
                       "x": 596,
                       "y": 204.122,
-                      "content": "{{ github.status.message }}",
+                      "content": "{{ github.status.message | truncateWidth(244, \"scm\", 17) }}",
                       "font": "scm",
                       "fontSize": 17,
                       "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}",
@@ -645,7 +642,7 @@
                       "type": "text",
                       "x": 580,
                       "y": 227.122,
-                      "content": "{{ props.statusNote }}",
+                      "content": "{{ props.statusNote | truncateWidth(260, \"sc\", 17) }}",
                       "font": "sc",
                       "fontSize": 17,
                       "fill": "{{ props.theme == \"dark\" ? \"#CFCBC4\" : \"#3A3A3A\" }}",
@@ -665,12 +662,7 @@
       "type": "component",
       "ref": "card",
       "props": {
-        "theme": "light",
-        "role": "Backend engineer",
-        "roleDetail": "Kotlin & the JVM",
-        "workingOn": "Messaging systems,",
-        "workingOnDetail": "internal tooling",
-        "statusNote": "Open to collaborations"
+        "theme": "light"
       }
     }
   ]

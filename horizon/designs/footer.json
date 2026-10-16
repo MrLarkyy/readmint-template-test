@@ -52,10 +52,7 @@
       "props": {
         "theme": {
           "type": "enum",
-          "values": [
-            "light",
-            "dark"
-          ],
+          "values": ["light", "dark"],
           "default": "light"
         },
         "headline": {
@@ -125,11 +122,9 @@
         },
         {
           "type": "text",
-          "x": 564,
-          "width": 260,
-          "align": "end",
+          "x": "{{ 824 - ((props.contactText || \"github.com/\" + github.login) | truncate(32) | truncateWidth(260, \"scm\", 18) | textWidth(\"scm\", 18)) }}",
           "y": 75.188,
-          "content": "{{ (props.contactText || \"github.com/\" + github.login) | truncate(32) }}",
+          "content": "{{ (props.contactText || \"github.com/\" + github.login) | truncate(32) | truncateWidth(260, \"scm\", 18) }}",
           "font": "scm",
           "fontSize": 18,
           "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}"
@@ -143,9 +138,9 @@
         },
         {
           "type": "rect",
-          "x": "{{ 840 - (((props.contactText || \"github.com/\" + github.login) | truncate(32) | length) * 8.4 + 16) }}",
+          "x": "{{ 840 - (((props.contactText || \"github.com/\" + github.login) | truncate(32) | truncateWidth(260, \"scm\", 18) | textWidth(\"scm\", 18)) + 16) }}",
           "y": 99,
-          "width": "{{ ((props.contactText || \"github.com/\" + github.login) | truncate(32) | length) * 8.4 + 16 }}",
+          "width": "{{ ((props.contactText || \"github.com/\" + github.login) | truncate(32) | truncateWidth(260, \"scm\", 18) | textWidth(\"scm\", 18)) + 16 }}",
           "height": 3,
           "fill": "{{ props.theme == \"dark\" ? \"#FF8A3D\" : \"#E8590C\" }}"
         },
@@ -196,11 +191,7 @@
       "type": "component",
       "ref": "card",
       "props": {
-        "theme": "light",
-        "headline": "Open to long-term\ncollaborations.",
-        "note": "Backend-heavy projects,\ntooling and infrastructure.",
-        "contactLabel": "discord",
-        "contactText": "discord.aquatic.gg"
+        "theme": "light"
       }
     }
   ]

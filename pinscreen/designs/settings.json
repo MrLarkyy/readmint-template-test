@@ -1,0 +1,58 @@
+{
+  "header": {
+    "role": "Backend engineer. Kotlin, the JVM and messaging systems.",
+    "intro": "Building internal tooling and services for Minecraft servers and their creators.",
+    "branch": "main",
+    "statusBarRight": "Kotlin · LF · UTF-8"
+  },
+  "stack": {
+    "plugin": "kotlin(\"jvm\")",
+    "labels": [
+      "frameworks",
+      "messaging",
+      "storage",
+      "wire format"
+    ],
+    "items": [
+      "ktor, spring",
+      "redis, rabbitmq, nats",
+      "postgresql, mysql, mariadb, sqlite",
+      "protobuf"
+    ],
+    "noteLabels": [
+      "tools",
+      "shipped for",
+      "creators"
+    ],
+    "noteItems": [
+      "IntelliJ IDEA, Rider, WebStorm, Gradle",
+      "Hoplite, Minebox, Cobblemon Islands, Mineclub, SWN Moravia, we.builders, Partners",
+      "MrBeast, SpeedSilver, DiamondXR"
+    ],
+    "logoNames": [
+      "Hoplite",
+      "Minebox",
+      "Cobblemon Islands",
+      "Mineclub",
+      "SWN Moravia",
+      "we.builders",
+      "Partners"
+    ],
+    "logos": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "logosRow": 1
+  },
+  "footer": {
+    "headline": "Open to long-term collaborations.",
+    "note": "Backend-heavy projects, tooling and infrastructure.",
+    "contactLabel": "reach me",
+    "contactText": "discord.aquatic.gg"
+  }
+}

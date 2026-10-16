@@ -1,0 +1,51 @@
+{
+  "header": {
+    "intro": "Backend engineer working in Kotlin and on the JVM. I build clean, scalable services, internal tooling and messaging systems for Minecraft servers and creators."
+  },
+  "index": {
+    "labels": [
+      "Focus",
+      "Systems",
+      "Frameworks",
+      "Data",
+      "Tools",
+      "Shipped for",
+      "Creators"
+    ],
+    "values": [
+      "Backend systems and internal tooling",
+      "Messaging with Redis, RabbitMQ and NATS",
+      "Ktor, Spring",
+      "PostgreSQL, MySQL, MariaDB, SQLite, Protocol Buffers",
+      "IntelliJ IDEA, Rider, WebStorm, Gradle",
+      "Hoplite, Minebox, Cobblemon Islands, Mineclub, SWN Moravia, we.builders, Partners",
+      "MrBeast, SpeedSilver, DiamondXR"
+    ],
+    "languagesAfter": 2,
+    "logoNames": [
+      "Hoplite",
+      "Minebox",
+      "Cobblemon Islands",
+      "Mineclub",
+      "SWN Moravia",
+      "we.builders",
+      "Partners"
+    ],
+    "logos": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "logosRow": 5
+  },
+  "footer": {
+    "headline": "Open to long-term collaborations.",
+    "note": "Backend-heavy projects, tooling and infrastructure. Best reached on Discord.",
+    "contactLabel": "Discord",
+    "contactText": "discord.aquatic.gg"
+  }
+}

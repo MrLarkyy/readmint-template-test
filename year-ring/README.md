@@ -1,6 +1,6 @@
 # Year Ring
 
-Rendered by Readmint with live data of MrLarkyy. Designs with the personal texts filled in are in [designs/](designs/).
+Rendered by Readmint with live data of MrLarkyy. The designs are in [designs/](designs/), the personal texts in `designs/settings.json` (Action input `props-file`).
 How to use them and the props of each section: [the template README](https://github.com/MrLarkyy/Readmint/tree/main/packages/components/templates/profiles/year-ring).
 
 <picture>

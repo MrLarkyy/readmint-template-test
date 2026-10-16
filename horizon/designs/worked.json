@@ -38,10 +38,7 @@
       "props": {
         "theme": {
           "type": "enum",
-          "values": [
-            "light",
-            "dark"
-          ],
+          "values": ["light", "dark"],
           "default": "light"
         },
         "items": {
@@ -63,7 +60,7 @@
         {
           "type": "group",
           "repeat": {
-            "each": "{{ [[(props.items[0] ? ((props.items[0] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[1] ? ((props.items[1] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[2] ? ((props.items[2] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[3] ? ((props.items[3] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[4] ? ((props.items[4] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[5] ? ((props.items[5] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[6] ? ((props.items[6] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[7] ? ((props.items[7] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[8] ? ((props.items[8] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[9] ? ((props.items[9] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[10] ? ((props.items[10] | truncate(30) | length) * 16.4 + 80) : 0), (props.items[11] ? ((props.items[11] | truncate(30) | length) * 16.4 + 80) : 0)]] }}",
+            "each": "{{ [[(props.items[0] ? ((props.items[0] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[1] ? ((props.items[1] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[2] ? ((props.items[2] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[3] ? ((props.items[3] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[4] ? ((props.items[4] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[5] ? ((props.items[5] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[6] ? ((props.items[6] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[7] ? ((props.items[7] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[8] ? ((props.items[8] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[9] ? ((props.items[9] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[10] ? ((props.items[10] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0), (props.items[11] ? ((props.items[11] | upper | truncate(30) | textWidth(\"xbold\", 34)) + 80) : 0)]] }}",
             "as": "sw"
           },
           "children": [
@@ -244,16 +241,7 @@
       "type": "component",
       "ref": "card",
       "props": {
-        "theme": "light",
-        "items": [
-          "Hoplite",
-          "Minebox",
-          "Cobblemon Islands",
-          "Mineclub",
-          "MrBeast",
-          "SpeedSilver",
-          "DiamondXR"
-        ]
+        "theme": "light"
       }
     }
   ]

@@ -1,0 +1,43 @@
+{
+  "header": {
+    "role": "Backend engineer",
+    "roleDetail": "Kotlin & the JVM",
+    "workingOn": "Messaging systems,",
+    "workingOnDetail": "internal tooling",
+    "statusNote": "Open to collaborations"
+  },
+  "stack": {
+    "labels": [
+      "Frameworks",
+      "Messaging",
+      "Data",
+      "Tools"
+    ],
+    "items": [
+      "Ktor\nSpring",
+      "Redis\nRabbitMQ\nNATS",
+      "PostgreSQL\nMySQL\nMariaDB\nSQLite\nProtobuf",
+      "IntelliJ IDEA\nRider\nWebStorm\nGradle"
+    ]
+  },
+  "worked": {
+    "items": [
+      "Hoplite",
+      "Minebox",
+      "Cobblemon Islands",
+      "Mineclub",
+      "SWN Moravia",
+      "we.builders",
+      "Partners",
+      "MrBeast",
+      "SpeedSilver",
+      "DiamondXR"
+    ]
+  },
+  "footer": {
+    "headline": "Open to long-term\ncollaborations.",
+    "note": "Backend-heavy projects,\ntooling and infrastructure.",
+    "contactLabel": "discord",
+    "contactText": "discord.aquatic.gg"
+  }
+}

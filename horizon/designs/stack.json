@@ -47,10 +47,7 @@
       "props": {
         "theme": {
           "type": "enum",
-          "values": [
-            "light",
-            "dark"
-          ],
+          "values": ["light", "dark"],
           "default": "light"
         },
         "labels": {
@@ -269,19 +266,7 @@
       "type": "component",
       "ref": "card",
       "props": {
-        "theme": "light",
-        "labels": [
-          "Frameworks",
-          "Messaging",
-          "Data",
-          "Tools"
-        ],
-        "items": [
-          "Ktor\nSpring",
-          "Redis\nRabbitMQ\nNATS",
-          "PostgreSQL\nMySQL\nMariaDB\nSQLite\nProtobuf",
-          "IntelliJ IDEA\nRider\nWebStorm\nGradle"
-        ]
+        "theme": "light"
       }
     }
   ]
