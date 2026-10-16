@@ -5,7 +5,7 @@
   "description": "Key facts in rows, with the languages of the public repositories and a bar of their shares.",
   "canvas": {
     "width": 840,
-    "height": "{{ 39 + 36 * ((props.labels | length) + ((github.languages | length | default(0)) > 0 ? 1 : 0) | min(8)) + (((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + ((github.languages | length | default(0)) > 0 ? 1 : 0)) < 8) && (props.logoNames | length | min(12)) >= 6 ? 22 : 0) }}"
+    "height": "{{ 39 + 36 * ((props.labels | length) + ((github.languages | length | default(0)) > 0 ? 1 : 0) | min(8)) + (((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + ((github.languages | length | default(0)) > 0 ? 1 : 0)) < 8) ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) }}"
   },
   "assets": {
     "fonts": {
@@ -53,7 +53,31 @@
           "type": "number",
           "default": 2
         },
+        "logoLabels": {
+          "type": "array",
+          "default": []
+        },
+        "logoFills": {
+          "type": "array",
+          "default": []
+        },
+        "logoFillsDark": {
+          "type": "array",
+          "default": []
+        },
+        "logoLines": {
+          "type": "array",
+          "default": []
+        },
+        "logoLayers": {
+          "type": "array",
+          "default": []
+        },
         "logoNames": {
+          "type": "array",
+          "default": []
+        },
+        "logoWithName": {
           "type": "array",
           "default": []
         },
@@ -104,7 +128,7 @@
                 {
                   "type": "group",
                   "x": 0,
-                  "y": "{{ 35 + (i < props.languagesAfter ? i : i + (((github.languages | length | default(0)) > 0) ? 1 : 0)) * 36 + (i > sr ? (sr >= 0 && (props.logoNames | length | min(12)) >= 6 ? 22 : 0) : 0) }}",
+                  "y": "{{ 35 + (i < props.languagesAfter ? i : i + (((github.languages | length | default(0)) > 0) ? 1 : 0)) * 36 + (i > sr ? (sr >= 0 ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) : 0) }}",
                   "children": [
                     {
                       "type": "text",
@@ -130,94 +154,111 @@
                       "if": "{{ (i == sr) }}",
                       "children": [
                         {
+                          "type": "rect",
+                          "x": 162,
+                          "y": 3,
+                          "width": 678,
+                          "height": "{{ 30 + 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) }}",
+                          "radius": 6,
+                          "fill": "{{ props.theme == \"dark\" ? \"#1A1E24\" : \"#F4F5F7\" }}"
+                        },
+                        {
                           "type": "group",
-                          "x": 170,
-                          "y": 8.292,
-                          "width": 670,
-                          "height": 18,
-                          "clip": true,
-                          "layout": {
-                            "type": "stack",
-                            "direction": "row",
-                            "gap": 28,
-                            "align": "center"
+                          "repeat": {
+                            "each": "{{ (props.logoLabels | length) > 0 ? props.logoLabels : [\"\"] }}",
+                            "as": "cap",
+                            "index": "g"
                           },
+                          "if": "{{ g < 4 }}",
+                          "x": 0,
+                          "y": "{{ 9 + 24 * g }}",
                           "children": [
                             {
+                              "type": "text",
+                              "x": 174,
+                              "y": 3.5,
+                              "content": "{{ cap | upper | truncateWidth(108, \"semi\", 10, 1.4) }}",
+                              "font": "semi",
+                              "fontSize": 10,
+                              "letterSpacing": 1.4,
+                              "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+                            },
+                            {
                               "type": "group",
-                              "repeat": {
-                                "each": "{{ props.logoNames }}",
-                                "as": "name",
-                                "index": "k"
+                              "x": "{{ 174 + ((props.logoLabels | join(\"\")) ? 120 : 0) }}",
+                              "y": 0,
+                              "width": "{{ 832 - (174 + ((props.logoLabels | join(\"\")) ? 120 : 0)) }}",
+                              "height": 18,
+                              "clip": true,
+                              "layout": {
+                                "type": "stack",
+                                "direction": "row",
+                                "gap": 24,
+                                "align": "center"
                               },
-                              "if": "{{ k < ((props.logoNames | length | min(12)) >= 6 ? (((props.logoNames | length | min(12)) / 2) | ceil) : (props.logoNames | length | min(12))) }}",
                               "children": [
                                 {
-                                  "type": "path",
-                                  "d": "{{ props.logos[k] }}",
-                                  "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
-                                  "if": "{{ props.logos[k] }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "content": "{{ name | truncate(24) }}",
-                                  "font": "reg",
-                                  "fontSize": 15,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
-                                  "if": "{{ !props.logos[k] }}"
+                                  "type": "group",
+                                  "repeat": {
+                                    "each": "{{ props.logoNames }}",
+                                    "as": "name",
+                                    "index": "k"
+                                  },
+                                  "if": "{{ k < 12 && ((props.logoLines[k] | default(\"0\")) | padStart(1)) == (g | padStart(1)) }}",
+                                  "layout": {
+                                    "type": "stack",
+                                    "direction": "row",
+                                    "gap": 7,
+                                    "align": "center"
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "group",
+                                      "if": "{{ props.logoLayers[4 * k] }}",
+                                      "children": [
+                                        {
+                                          "type": "group",
+                                          "repeat": {
+                                            "each": "{{ [4 * k, 4 * k + 1, 4 * k + 2, 4 * k + 3] }}",
+                                            "as": "li"
+                                          },
+                                          "if": "{{ props.logoLayers[li] }}",
+                                          "children": [
+                                            {
+                                              "type": "path",
+                                              "d": "{{ props.logoLayers[li] }}",
+                                              "fill": "{{ props.theme == \"dark\" ? (props.logoFillsDark[li] || props.logoFills[li] || \"#ECEEF2\") : (props.logoFills[li] || \"#15171C\") }}"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "path",
+                                      "d": "{{ props.logos[k] }}",
+                                      "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+                                      "if": "{{ !props.logoLayers[4 * k] && props.logos[k] }}"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "content": "{{ name | truncate(24) }}",
+                                      "font": "reg",
+                                      "fontSize": 13,
+                                      "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+                                      "if": "{{ !(props.logoLayers[4 * k] || props.logos[k]) || props.logoWithName[k] }}"
+                                    }
+                                  ]
                                 }
                               ]
                             }
                           ]
-                        },
-                        {
-                          "type": "group",
-                          "x": 170,
-                          "y": 30.292,
-                          "width": 670,
-                          "height": 18,
-                          "clip": true,
-                          "layout": {
-                            "type": "stack",
-                            "direction": "row",
-                            "gap": 28,
-                            "align": "center"
-                          },
-                          "children": [
-                            {
-                              "type": "group",
-                              "repeat": {
-                                "each": "{{ props.logoNames }}",
-                                "as": "name",
-                                "index": "k"
-                              },
-                              "if": "{{ k >= ((props.logoNames | length | min(12)) >= 6 ? (((props.logoNames | length | min(12)) / 2) | ceil) : (props.logoNames | length | min(12))) && k < (props.logoNames | length | min(12)) }}",
-                              "children": [
-                                {
-                                  "type": "path",
-                                  "d": "{{ props.logos[k] }}",
-                                  "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
-                                  "if": "{{ props.logos[k] }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "content": "{{ name | truncate(24) }}",
-                                  "font": "reg",
-                                  "fontSize": 15,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
-                                  "if": "{{ !props.logos[k] }}"
-                                }
-                              ]
-                            }
-                          ],
-                          "if": "{{ (sr >= 0 && (props.logoNames | length | min(12)) >= 6 ? 22 : 0) > 0 }}"
                         }
                       ]
                     },
                     {
                       "type": "rect",
                       "x": 0,
-                      "y": "{{ 35 + (i == sr ? (sr >= 0 && (props.logoNames | length | min(12)) >= 6 ? 22 : 0) : 0) }}",
+                      "y": "{{ 35 + (i == sr ? (sr >= 0 ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) : 0) }}",
                       "width": 840,
                       "height": 1,
                       "fill": "{{ props.theme == \"dark\" ? \"#2A2F37\" : \"#DDE0E5\" }}"
@@ -229,7 +270,7 @@
             {
               "type": "group",
               "x": 0,
-              "y": "{{ 35 + (props.languagesAfter | clamp(0, (props.labels | length))) * 36 + ((props.languagesAfter | clamp(0, (props.labels | length))) > sr ? (sr >= 0 && (props.logoNames | length | min(12)) >= 6 ? 22 : 0) : 0) }}",
+              "y": "{{ 35 + (props.languagesAfter | clamp(0, (props.labels | length))) * 36 + ((props.languagesAfter | clamp(0, (props.labels | length))) > sr ? (sr >= 0 ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) : 0) }}",
               "if": "{{ ((github.languages | length | default(0)) > 0) && (props.languagesAfter | clamp(0, (props.labels | length))) < 8 }}",
               "children": [
                 {
