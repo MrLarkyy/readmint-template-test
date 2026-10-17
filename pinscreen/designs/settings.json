@@ -6,6 +6,7 @@
     "statusBarRight": "Kotlin · LF · UTF-8"
   },
   "stack": {
+    "languageShare": "repositories",
     "plugin": "kotlin(\"jvm\")",
     "labels": [
       "frameworks",

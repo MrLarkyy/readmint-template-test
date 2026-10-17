@@ -90,7 +90,7 @@
           "content": "{{ \"~/\" + (github.login | truncate(30)) }}",
           "font": "mono",
           "fontSize": 12.5,
-          "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\" }}"
+          "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#D6343A\" }}"
         },
         {
           "type": "text",
@@ -234,11 +234,6 @@
                               "height": 12.75,
                               "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}",
                               "opacity": 0.7,
-                              "repeat": {
-                                "each": "{{ [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }}",
-                                "as": "loopCopy",
-                                "index": "loopIndex"
-                              },
                               "animate": {
                                 "opacity": {
                                   "keyframes": [
@@ -251,95 +246,11 @@
                                       "value": 1
                                     },
                                     {
-                                      "offset": 0.083333,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.083333,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.166667,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.166667,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.25,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.25,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.333333,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.333333,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.416667,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.416667,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.5,
-                                      "value": 0
-                                    },
-                                    {
                                       "offset": 0.5,
                                       "value": 1
                                     },
                                     {
-                                      "offset": 0.583333,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.583333,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.666667,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.666667,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.75,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.75,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.833333,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0.833333,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.916667,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0.916667,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 1,
+                                      "offset": 0.5,
                                       "value": 0
                                     },
                                     {
@@ -347,8 +258,8 @@
                                       "value": 0
                                     }
                                   ],
-                                  "duration": 6000,
-                                  "stagger": 6000
+                                  "duration": 1000,
+                                  "cycles": 60
                                 }
                               }
                             }
@@ -364,29 +275,88 @@
         },
         {
           "type": "group",
-          "repeat": {
-            "each": "{{ [github.contributions.days] }}",
-            "as": "d"
+          "let": {
+            "d": "{{ github.contributions.days }}",
+            "n": "{{ d | length }}"
           },
           "children": [
             {
               "type": "group",
               "repeat": {
-                "each": "{{ [d | length] }}",
-                "as": "n"
+                "each": "{{ github.pushes }}",
+                "as": "push",
+                "index": "i"
               },
+              "if": "{{ i < 6 }}",
               "children": [
                 {
                   "type": "group",
-                  "repeat": {
-                    "each": "{{ github.pushes }}",
-                    "as": "push",
-                    "index": "i"
+                  "animate": {
+                    "opacity": {
+                      "keyframes": [
+                        {
+                          "offset": 0,
+                          "value": 1
+                        },
+                        {
+                          "offset": 0,
+                          "value": 0
+                        },
+                        {
+                          "offset": 1,
+                          "value": 0
+                        },
+                        {
+                          "offset": 1,
+                          "value": 1
+                        }
+                      ],
+                      "duration": "{{ 2240 + i * 120 + 1 }}"
+                    }
                   },
-                  "if": "{{ i < 6 }}",
                   "children": [
                     {
                       "type": "group",
+                      "children": [
+                        {
+                          "type": "text",
+                          "x": 18,
+                          "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
+                          "content": "{{ push.hash | truncate(7, \"\") }}",
+                          "font": "mono",
+                          "fontSize": 12.5,
+                          "fill": "{{ props.theme == \"dark\" ? \"#6897BB\" : \"#1750EB\" }}"
+                        },
+                        {
+                          "type": "text",
+                          "x": 85.5,
+                          "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
+                          "content": "{{ \"(\" + (push.repository | truncate(10)) + \")\" }}",
+                          "font": "mono",
+                          "fontSize": 12.5,
+                          "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
+                        },
+                        {
+                          "type": "text",
+                          "x": 183,
+                          "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
+                          "content": "{{ push.message | truncate(70) }}",
+                          "font": "mono",
+                          "fontSize": 12.5,
+                          "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+                        },
+                        {
+                          "type": "text",
+                          "x": 742,
+                          "width": 80,
+                          "align": "end",
+                          "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
+                          "content": "{{ ((push.date | date(\"yyyy-MM-dd\")) == d[n - 1].date ? \"today\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 2].date ? \"1d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 3].date ? \"2d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 4].date ? \"3d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 5].date ? \"4d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 6].date ? \"5d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 7].date ? \"6d\" : (push.date | date(\"MMM d\"))))))))) }}",
+                          "font": "mono",
+                          "fontSize": 12.5,
+                          "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+                        }
+                      ],
                       "animate": {
                         "opacity": {
                           "keyframes": [
@@ -400,81 +370,13 @@
                             },
                             {
                               "offset": 1,
-                              "value": 0
-                            },
-                            {
-                              "offset": 1,
                               "value": 1
                             }
                           ],
-                          "duration": "{{ 2240 + i * 120 + 1 }}"
+                          "duration": 150,
+                          "delay": "{{ 2240 + i * 120 }}"
                         }
-                      },
-                      "children": [
-                        {
-                          "type": "group",
-                          "children": [
-                            {
-                              "type": "text",
-                              "x": 18,
-                              "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
-                              "content": "{{ push.hash | truncate(7, \"\") }}",
-                              "font": "mono",
-                              "fontSize": 12.5,
-                              "fill": "{{ props.theme == \"dark\" ? \"#6897BB\" : \"#1750EB\" }}"
-                            },
-                            {
-                              "type": "text",
-                              "x": 85.5,
-                              "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
-                              "content": "{{ \"(\" + (push.repository | truncate(10)) + \")\" }}",
-                              "font": "mono",
-                              "fontSize": 12.5,
-                              "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
-                            },
-                            {
-                              "type": "text",
-                              "x": 183,
-                              "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
-                              "content": "{{ push.message | truncate(70) }}",
-                              "font": "mono",
-                              "fontSize": 12.5,
-                              "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
-                            },
-                            {
-                              "type": "text",
-                              "x": 742,
-                              "width": 80,
-                              "align": "end",
-                              "y": "{{ 72 + (i + 1) * 22 + 6 - 11.937 }}",
-                              "content": "{{ ((push.date | date(\"yyyy-MM-dd\")) == d[n - 1].date ? \"today\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 2].date ? \"1d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 3].date ? \"2d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 4].date ? \"3d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 5].date ? \"4d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 6].date ? \"5d\" : ((push.date | date(\"yyyy-MM-dd\")) == d[n - 7].date ? \"6d\" : (push.date | date(\"MMM d\"))))))))) }}",
-                              "font": "mono",
-                              "fontSize": 12.5,
-                              "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
-                            }
-                          ],
-                          "animate": {
-                            "opacity": {
-                              "keyframes": [
-                                {
-                                  "offset": 0,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
-                                  "value": 1
-                                }
-                              ],
-                              "duration": 150,
-                              "delay": "{{ 2240 + i * 120 }}"
-                            }
-                          }
-                        }
-                      ]
+                      }
                     }
                   ]
                 }
@@ -531,7 +433,7 @@
                       "content": "{{ \"~/\" + (github.login | truncate(30)) }}",
                       "font": "mono",
                       "fontSize": 12.5,
-                      "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\" }}"
+                      "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#D6343A\" }}"
                     },
                     {
                       "type": "text",
@@ -553,11 +455,6 @@
                           "height": 14,
                           "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}",
                           "opacity": 0.7,
-                          "repeat": {
-                            "each": "{{ [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }}",
-                            "as": "loopCopy",
-                            "index": "loopIndex"
-                          },
                           "animate": {
                             "opacity": {
                               "keyframes": [
@@ -570,95 +467,11 @@
                                   "value": 1
                                 },
                                 {
-                                  "offset": 0.083333,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.083333,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.166667,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.166667,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.25,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.25,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.333333,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.333333,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.416667,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.416667,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.5,
-                                  "value": 0
-                                },
-                                {
                                   "offset": 0.5,
                                   "value": 1
                                 },
                                 {
-                                  "offset": 0.583333,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.583333,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.666667,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.666667,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.75,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.75,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.833333,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 0.833333,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.916667,
-                                  "value": 1
-                                },
-                                {
-                                  "offset": 0.916667,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
+                                  "offset": 0.5,
                                   "value": 0
                                 },
                                 {
@@ -666,8 +479,8 @@
                                   "value": 0
                                 }
                               ],
-                              "duration": 6000,
-                              "stagger": 6000
+                              "duration": 1000,
+                              "cycles": 60
                             }
                           }
                         }

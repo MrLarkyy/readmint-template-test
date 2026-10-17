@@ -179,7 +179,7 @@
           "content": "{{ \"Rendered by Readmint on \" + (github.contributions.to | date(\"d MMM yyyy\")) + \".\" }}",
           "font": "reg",
           "fontSize": 11,
-          "fill": "{{ props.theme == \"dark\" ? \"#5A616B\" : \"#A1A6AE\" }}"
+          "fill": "{{ props.theme == \"dark\" ? \"#7A828C\" : \"#6B7078\" }}"
         }
       ]
     }

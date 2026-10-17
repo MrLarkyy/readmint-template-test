@@ -49,9 +49,8 @@
       "layers": [
         {
           "type": "group",
-          "repeat": {
-            "each": "{{ [github.pinned || github.repositories] }}",
-            "as": "rs"
+          "let": {
+            "rs": "{{ github.pinned || github.repositories }}"
           },
           "children": [
             {
@@ -71,68 +70,135 @@
               "children": [
                 {
                   "type": "group",
-                  "repeat": {
-                    "each": "{{ [rs[props.slot].name | truncate(30)] }}",
-                    "as": "rn"
+                  "let": {
+                    "rn": "{{ rs[props.slot].name | truncate(30) }}",
+                    "sh": "{{ rs[props.slot].isArchived ? 1 : 0 }}"
                   },
                   "children": [
                     {
                       "type": "group",
-                      "repeat": {
-                        "each": "{{ [rs[props.slot].isArchived ? 1 : 0] }}",
-                        "as": "sh"
-                      },
+                      "x": 0,
+                      "y": 0,
+                      "width": 352,
+                      "height": 36,
+                      "clip": true,
                       "children": [
                         {
                           "type": "group",
                           "x": 0,
                           "y": 0,
-                          "width": 352,
-                          "height": 36,
-                          "clip": true,
                           "children": [
                             {
-                              "type": "group",
-                              "x": 0,
-                              "y": 0,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "x": 16,
-                                  "y": 11.6,
-                                  "content": "{{ rn }}.kt",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\" }}"
-                                }
-                              ]
+                              "type": "text",
+                              "x": 16,
+                              "y": 11.6,
+                              "content": "{{ rn }}.kt",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\" }}"
                             }
                           ]
-                        },
-                        {
-                          "type": "rect",
-                          "x": 0,
-                          "y": 36,
-                          "width": 412,
-                          "height": 1,
-                          "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
-                        },
-                        {
-                          "type": "path",
-                          "d": "M368 13.382 L369.4 16.682 L372.9 16.982 L370.3 19.282 L371.1 22.782 L368 20.982 L364.9 22.782 L365.7 19.282 L363.1 16.982 L366.6 16.682 Z",
-                          "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\" }}"
-                        },
-                        {
-                          "type": "text",
-                          "x": 378,
-                          "y": 11.6,
-                          "content": "{{ rs[props.slot].stars | compact }}",
-                          "font": "mono",
-                          "fontSize": 11.5,
-                          "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\" }}"
-                        },
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rect",
+                      "x": 0,
+                      "y": 36,
+                      "width": 412,
+                      "height": 1,
+                      "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
+                    },
+                    {
+                      "type": "path",
+                      "d": "M368 13.382 L369.4 16.682 L372.9 16.982 L370.3 19.282 L371.1 22.782 L368 20.982 L364.9 22.782 L365.7 19.282 L363.1 16.982 L366.6 16.682 Z",
+                      "fill": "{{ props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\" }}"
+                    },
+                    {
+                      "type": "text",
+                      "x": 378,
+                      "y": 11.6,
+                      "content": "{{ rs[props.slot].stars | compact }}",
+                      "font": "mono",
+                      "fontSize": 11.5,
+                      "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\" }}"
+                    },
+                    {
+                      "type": "group",
+                      "animate": {
+                        "opacity": {
+                          "keyframes": [
+                            {
+                              "offset": 0,
+                              "value": 1
+                            },
+                            {
+                              "offset": 0,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 1
+                            }
+                          ],
+                          "duration": "{{ 400 + props.slot * 100 + 1 }}"
+                        }
+                      },
+                      "children": [
                         {
                           "type": "group",
+                          "if": "{{ sh == 1 }}",
+                          "children": [
+                            {
+                              "type": "text",
+                              "x": 16,
+                              "y": 51.495,
+                              "content": "1",
+                              "font": "mono",
+                              "fontSize": 11,
+                              "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (0) * 6.9 }}",
+                              "y": 51.017,
+                              "content": "@Deprecated",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#BBB529\" : \"#9E880D\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (11) * 6.9 }}",
+                              "y": 51.017,
+                              "content": "(",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (12) * 6.9 }}",
+                              "y": 51.017,
+                              "content": "\"archived\"",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#8CB070\" : \"#067D17\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (22) * 6.9 }}",
+                              "y": 51.017,
+                              "content": ")",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            }
+                          ],
                           "animate": {
                             "opacity": {
                               "keyframes": [
@@ -146,92 +212,100 @@
                                 },
                                 {
                                   "offset": 1,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
                                   "value": 1
                                 }
                               ],
-                              "duration": "{{ 400 + props.slot * 100 + 1 }}"
+                              "duration": 350,
+                              "delay": "{{ 400 + props.slot * 100 }}"
                             }
-                          },
-                          "children": [
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "animate": {
+                        "opacity": {
+                          "keyframes": [
                             {
-                              "type": "group",
-                              "if": "{{ sh == 1 }}",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "x": 16,
-                                  "y": 51.495,
-                                  "content": "1",
-                                  "font": "mono",
-                                  "fontSize": 11,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (0) * 6.9 }}",
-                                  "y": 51.017,
-                                  "content": "@Deprecated",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#BBB529\" : \"#9E880D\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (11) * 6.9 }}",
-                                  "y": 51.017,
-                                  "content": "(",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (12) * 6.9 }}",
-                                  "y": 51.017,
-                                  "content": "\"archived\"",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#8CB070\" : \"#067D17\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (22) * 6.9 }}",
-                                  "y": 51.017,
-                                  "content": ")",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                }
-                              ],
-                              "animate": {
-                                "opacity": {
-                                  "keyframes": [
-                                    {
-                                      "offset": 0,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 1,
-                                      "value": 1
-                                    }
-                                  ],
-                                  "duration": 350,
-                                  "delay": "{{ 400 + props.slot * 100 }}"
-                                }
-                              }
+                              "offset": 0,
+                              "value": 1
+                            },
+                            {
+                              "offset": 0,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 1
                             }
-                          ]
-                        },
+                          ],
+                          "duration": "{{ 400 + props.slot * 100 + (0 + sh) * 90 + 1 }}"
+                        }
+                      },
+                      "children": [
                         {
                           "type": "group",
+                          "children": [
+                            {
+                              "type": "text",
+                              "x": 16,
+                              "y": "{{ 62 + (0 + sh) * 20 - 10.505 }}",
+                              "content": "{{ 0 + sh + 1 }}",
+                              "font": "mono",
+                              "fontSize": 11,
+                              "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (0) * 6.9 }}",
+                              "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
+                              "content": "object",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (7) * 6.9 }}",
+                              "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
+                              "content": "{{ rn }}",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (8 + (rn | length)) * 6.9 }}",
+                              "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
+                              "content": ":",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (10 + (rn | length)) * 6.9 }}",
+                              "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
+                              "content": "Project",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (18 + (rn | length)) * 6.9 }}",
+                              "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
+                              "content": "{",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            }
+                          ],
                           "animate": {
                             "opacity": {
                               "keyframes": [
@@ -245,100 +319,91 @@
                                 },
                                 {
                                   "offset": 1,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
                                   "value": 1
                                 }
                               ],
-                              "duration": "{{ 400 + props.slot * 100 + (0 + sh) * 90 + 1 }}"
+                              "duration": 350,
+                              "delay": "{{ 400 + props.slot * 100 + (0 + sh) * 90 }}"
                             }
-                          },
-                          "children": [
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "animate": {
+                        "opacity": {
+                          "keyframes": [
                             {
-                              "type": "group",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "x": 16,
-                                  "y": "{{ 62 + (0 + sh) * 20 - 10.505 }}",
-                                  "content": "{{ 0 + sh + 1 }}",
-                                  "font": "mono",
-                                  "fontSize": 11,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (0) * 6.9 }}",
-                                  "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
-                                  "content": "object",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (7) * 6.9 }}",
-                                  "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
-                                  "content": "{{ rn }}",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (8 + (rn | length)) * 6.9 }}",
-                                  "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
-                                  "content": ":",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (10 + (rn | length)) * 6.9 }}",
-                                  "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
-                                  "content": "Project",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (18 + (rn | length)) * 6.9 }}",
-                                  "y": "{{ 62 + (0 + sh) * 20 - 10.982 }}",
-                                  "content": "{",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                }
-                              ],
-                              "animate": {
-                                "opacity": {
-                                  "keyframes": [
-                                    {
-                                      "offset": 0,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 1,
-                                      "value": 1
-                                    }
-                                  ],
-                                  "duration": 350,
-                                  "delay": "{{ 400 + props.slot * 100 + (0 + sh) * 90 }}"
-                                }
-                              }
+                              "offset": 0,
+                              "value": 1
+                            },
+                            {
+                              "offset": 0,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 1
                             }
-                          ]
-                        },
+                          ],
+                          "duration": "{{ 400 + props.slot * 100 + (1 + sh) * 90 + 1 }}"
+                        }
+                      },
+                      "children": [
                         {
                           "type": "group",
+                          "children": [
+                            {
+                              "type": "text",
+                              "x": 16,
+                              "y": "{{ 62 + (1 + sh) * 20 - 10.505 }}",
+                              "content": "{{ 1 + sh + 1 }}",
+                              "font": "mono",
+                              "fontSize": 11,
+                              "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (4) * 6.9 }}",
+                              "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
+                              "content": "val",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (8) * 6.9 }}",
+                              "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
+                              "content": "about",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (14) * 6.9 }}",
+                              "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
+                              "content": "=",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (16) * 6.9 }}",
+                              "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
+                              "content": "{{ \"\\\"\" + (rs[props.slot].description | default(\"\") | truncate(32)) + \"\\\"\" }}",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#8CB070\" : \"#067D17\" }}"
+                            }
+                          ],
                           "animate": {
                             "opacity": {
                               "keyframes": [
@@ -352,91 +417,91 @@
                                 },
                                 {
                                   "offset": 1,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
                                   "value": 1
                                 }
                               ],
-                              "duration": "{{ 400 + props.slot * 100 + (1 + sh) * 90 + 1 }}"
+                              "duration": 350,
+                              "delay": "{{ 400 + props.slot * 100 + (1 + sh) * 90 }}"
                             }
-                          },
-                          "children": [
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "animate": {
+                        "opacity": {
+                          "keyframes": [
                             {
-                              "type": "group",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "x": 16,
-                                  "y": "{{ 62 + (1 + sh) * 20 - 10.505 }}",
-                                  "content": "{{ 1 + sh + 1 }}",
-                                  "font": "mono",
-                                  "fontSize": 11,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (4) * 6.9 }}",
-                                  "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
-                                  "content": "val",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (8) * 6.9 }}",
-                                  "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
-                                  "content": "about",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (14) * 6.9 }}",
-                                  "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
-                                  "content": "=",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (16) * 6.9 }}",
-                                  "y": "{{ 62 + (1 + sh) * 20 - 10.982 }}",
-                                  "content": "{{ \"\\\"\" + (rs[props.slot].description | default(\"\") | truncate(32)) + \"\\\"\" }}",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#8CB070\" : \"#067D17\" }}"
-                                }
-                              ],
-                              "animate": {
-                                "opacity": {
-                                  "keyframes": [
-                                    {
-                                      "offset": 0,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 1,
-                                      "value": 1
-                                    }
-                                  ],
-                                  "duration": 350,
-                                  "delay": "{{ 400 + props.slot * 100 + (1 + sh) * 90 }}"
-                                }
-                              }
+                              "offset": 0,
+                              "value": 1
+                            },
+                            {
+                              "offset": 0,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 1
                             }
-                          ]
-                        },
+                          ],
+                          "duration": "{{ 400 + props.slot * 100 + (2 + sh) * 90 + 1 }}"
+                        }
+                      },
+                      "children": [
                         {
                           "type": "group",
+                          "children": [
+                            {
+                              "type": "text",
+                              "x": 16,
+                              "y": "{{ 62 + (2 + sh) * 20 - 10.505 }}",
+                              "content": "{{ 2 + sh + 1 }}",
+                              "font": "mono",
+                              "fontSize": 11,
+                              "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (4) * 6.9 }}",
+                              "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
+                              "content": "val",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (8) * 6.9 }}",
+                              "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
+                              "content": "stars",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (14) * 6.9 }}",
+                              "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
+                              "content": "=",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (16) * 6.9 }}",
+                              "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
+                              "content": "{{ rs[props.slot].stars }}",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#6897BB\" : \"#1750EB\" }}"
+                            }
+                          ],
                           "animate": {
                             "opacity": {
                               "keyframes": [
@@ -450,91 +515,91 @@
                                 },
                                 {
                                   "offset": 1,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
                                   "value": 1
                                 }
                               ],
-                              "duration": "{{ 400 + props.slot * 100 + (2 + sh) * 90 + 1 }}"
+                              "duration": 350,
+                              "delay": "{{ 400 + props.slot * 100 + (2 + sh) * 90 }}"
                             }
-                          },
-                          "children": [
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "animate": {
+                        "opacity": {
+                          "keyframes": [
                             {
-                              "type": "group",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "x": 16,
-                                  "y": "{{ 62 + (2 + sh) * 20 - 10.505 }}",
-                                  "content": "{{ 2 + sh + 1 }}",
-                                  "font": "mono",
-                                  "fontSize": 11,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (4) * 6.9 }}",
-                                  "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
-                                  "content": "val",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (8) * 6.9 }}",
-                                  "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
-                                  "content": "stars",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (14) * 6.9 }}",
-                                  "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
-                                  "content": "=",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (16) * 6.9 }}",
-                                  "y": "{{ 62 + (2 + sh) * 20 - 10.982 }}",
-                                  "content": "{{ rs[props.slot].stars }}",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#6897BB\" : \"#1750EB\" }}"
-                                }
-                              ],
-                              "animate": {
-                                "opacity": {
-                                  "keyframes": [
-                                    {
-                                      "offset": 0,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 1,
-                                      "value": 1
-                                    }
-                                  ],
-                                  "duration": 350,
-                                  "delay": "{{ 400 + props.slot * 100 + (2 + sh) * 90 }}"
-                                }
-                              }
+                              "offset": 0,
+                              "value": 1
+                            },
+                            {
+                              "offset": 0,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 1
                             }
-                          ]
-                        },
+                          ],
+                          "duration": "{{ 400 + props.slot * 100 + (3 + sh) * 90 + 1 }}"
+                        }
+                      },
+                      "children": [
                         {
                           "type": "group",
+                          "children": [
+                            {
+                              "type": "text",
+                              "x": 16,
+                              "y": "{{ 62 + (3 + sh) * 20 - 10.505 }}",
+                              "content": "{{ 3 + sh + 1 }}",
+                              "font": "mono",
+                              "fontSize": 11,
+                              "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (4) * 6.9 }}",
+                              "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
+                              "content": "val",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (8) * 6.9 }}",
+                              "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
+                              "content": "forks",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (14) * 6.9 }}",
+                              "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
+                              "content": "=",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (16) * 6.9 }}",
+                              "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
+                              "content": "{{ rs[props.slot].forks }}",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#6897BB\" : \"#1750EB\" }}"
+                            }
+                          ],
                           "animate": {
                             "opacity": {
                               "keyframes": [
@@ -548,91 +613,64 @@
                                 },
                                 {
                                   "offset": 1,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
                                   "value": 1
                                 }
                               ],
-                              "duration": "{{ 400 + props.slot * 100 + (3 + sh) * 90 + 1 }}"
+                              "duration": 350,
+                              "delay": "{{ 400 + props.slot * 100 + (3 + sh) * 90 }}"
                             }
-                          },
-                          "children": [
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "animate": {
+                        "opacity": {
+                          "keyframes": [
                             {
-                              "type": "group",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "x": 16,
-                                  "y": "{{ 62 + (3 + sh) * 20 - 10.505 }}",
-                                  "content": "{{ 3 + sh + 1 }}",
-                                  "font": "mono",
-                                  "fontSize": 11,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (4) * 6.9 }}",
-                                  "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
-                                  "content": "val",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#CC7832\" : \"#0033B3\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (8) * 6.9 }}",
-                                  "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
-                                  "content": "forks",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (14) * 6.9 }}",
-                                  "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
-                                  "content": "=",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (16) * 6.9 }}",
-                                  "y": "{{ 62 + (3 + sh) * 20 - 10.982 }}",
-                                  "content": "{{ rs[props.slot].forks }}",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#6897BB\" : \"#1750EB\" }}"
-                                }
-                              ],
-                              "animate": {
-                                "opacity": {
-                                  "keyframes": [
-                                    {
-                                      "offset": 0,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 1,
-                                      "value": 1
-                                    }
-                                  ],
-                                  "duration": 350,
-                                  "delay": "{{ 400 + props.slot * 100 + (3 + sh) * 90 }}"
-                                }
-                              }
+                              "offset": 0,
+                              "value": 1
+                            },
+                            {
+                              "offset": 0,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 0
+                            },
+                            {
+                              "offset": 1,
+                              "value": 1
                             }
-                          ]
-                        },
+                          ],
+                          "duration": "{{ 400 + props.slot * 100 + (4 + sh) * 90 + 1 }}"
+                        }
+                      },
+                      "children": [
                         {
                           "type": "group",
+                          "children": [
+                            {
+                              "type": "text",
+                              "x": 16,
+                              "y": "{{ 62 + (4 + sh) * 20 - 10.505 }}",
+                              "content": "{{ 4 + sh + 1 }}",
+                              "font": "mono",
+                              "fontSize": 11,
+                              "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
+                            },
+                            {
+                              "type": "text",
+                              "x": "{{ 40 + (0) * 6.9 }}",
+                              "y": "{{ 62 + (4 + sh) * 20 - 10.982 }}",
+                              "content": "}",
+                              "font": "mono",
+                              "fontSize": 11.5,
+                              "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
+                            }
+                          ],
                           "animate": {
                             "opacity": {
                               "keyframes": [
@@ -646,61 +684,13 @@
                                 },
                                 {
                                   "offset": 1,
-                                  "value": 0
-                                },
-                                {
-                                  "offset": 1,
                                   "value": 1
                                 }
                               ],
-                              "duration": "{{ 400 + props.slot * 100 + (4 + sh) * 90 + 1 }}"
+                              "duration": 350,
+                              "delay": "{{ 400 + props.slot * 100 + (4 + sh) * 90 }}"
                             }
-                          },
-                          "children": [
-                            {
-                              "type": "group",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "x": 16,
-                                  "y": "{{ 62 + (4 + sh) * 20 - 10.505 }}",
-                                  "content": "{{ 4 + sh + 1 }}",
-                                  "font": "mono",
-                                  "fontSize": 11,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
-                                },
-                                {
-                                  "type": "text",
-                                  "x": "{{ 40 + (0) * 6.9 }}",
-                                  "y": "{{ 62 + (4 + sh) * 20 - 10.982 }}",
-                                  "content": "}",
-                                  "font": "mono",
-                                  "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#C9C9CF\" : \"#0A0A0A\" }}"
-                                }
-                              ],
-                              "animate": {
-                                "opacity": {
-                                  "keyframes": [
-                                    {
-                                      "offset": 0,
-                                      "value": 1
-                                    },
-                                    {
-                                      "offset": 0,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 1,
-                                      "value": 1
-                                    }
-                                  ],
-                                  "duration": 350,
-                                  "delay": "{{ 400 + props.slot * 100 + (4 + sh) * 90 }}"
-                                }
-                              }
-                            }
-                          ]
+                          }
                         }
                       ]
                     }
@@ -736,7 +726,7 @@
                   "content": "1",
                   "font": "mono",
                   "fontSize": 11,
-                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
+                  "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
                 },
                 {
                   "type": "text",
@@ -745,7 +735,7 @@
                   "content": "// no repository in this slot yet",
                   "font": "mono",
                   "fontSize": 11.5,
-                  "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+                  "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}"
                 }
               ]
             }

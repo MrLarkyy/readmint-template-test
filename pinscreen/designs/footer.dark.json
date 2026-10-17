@@ -164,7 +164,7 @@
           "content": "{{ \"rendered by readmint · \" + (github.contributions.to | date(\"d MMM yyyy\") | lower) }}",
           "font": "mono",
           "fontSize": 10.5,
-          "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
+          "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
         }
       ]
     }

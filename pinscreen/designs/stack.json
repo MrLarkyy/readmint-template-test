@@ -41,6 +41,11 @@
           "values": ["light", "dark"],
           "default": "light"
         },
+        "languageShare": {
+          "type": "enum",
+          "values": ["bytes", "repositories", "authored"],
+          "default": "bytes"
+        },
         "plugin": {
           "type": "string",
           "default": ""
@@ -101,9 +106,8 @@
       "layers": [
         {
           "type": "group",
-          "repeat": {
-            "each": "{{ [((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.noteLabels | length | min(3)) && props.logosRow == (props.logosRow | floor)) ? props.logosRow : -1] }}",
-            "as": "sr"
+          "let": {
+            "sr": "{{ ((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.noteLabels | length | min(3)) && props.logosRow == (props.logosRow | floor)) ? props.logosRow : -1 }}"
           },
           "children": [
             {
@@ -178,7 +182,7 @@
                   "content": "{{ li + 1 }}",
                   "font": "mono",
                   "fontSize": 11,
-                  "fill": "{{ props.theme == \"dark\" ? \"#5B5B63\" : \"#A1A1AA\" }}"
+                  "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
                 }
               ]
             },
@@ -189,7 +193,7 @@
               "content": "// build.gradle.kts, the stack behind my work",
               "font": "mono",
               "fontSize": 11.5,
-              "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+              "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}"
             },
             {
               "type": "group",
@@ -307,7 +311,7 @@
                       "content": "{{ \"// \" + (gl | truncate(24)) }}",
                       "font": "mono",
                       "fontSize": 11.5,
-                      "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+                      "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}"
                     }
                   ]
                 },
@@ -338,7 +342,7 @@
                   "content": "{{ \"// \" + (nl | truncate(20)) + \":\" + ((ni == sr) ? \"\" : \" \" + (props.noteItems[ni] | default(\"\") | truncate(60))) }}",
                   "font": "mono",
                   "fontSize": 11.5,
-                  "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+                  "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}"
                 },
                 {
                   "type": "group",
@@ -360,7 +364,7 @@
                           "content": "{{ \"//   \" + (cap | truncate(12)) }}",
                           "font": "mono",
                           "fontSize": 11.5,
-                          "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+                          "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}"
                         },
                         {
                           "type": "group",
@@ -406,7 +410,7 @@
                                         {
                                           "type": "path",
                                           "d": "{{ props.logoLayers[li] }}",
-                                          "fill": "{{ props.theme == \"dark\" ? (props.logoFillsDark[li] || props.logoFills[li] || \"#808080\") : (props.logoFills[li] || \"#8C8C8C\") }}"
+                                          "fill": "{{ props.theme == \"dark\" ? (props.logoFillsDark[li] || props.logoFills[li] || \"#888888\") : (props.logoFills[li] || \"#6B6B6B\") }}"
                                         }
                                       ]
                                     }
@@ -415,7 +419,7 @@
                                 {
                                   "type": "path",
                                   "d": "{{ props.logos[k] }}",
-                                  "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}",
+                                  "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}",
                                   "if": "{{ !props.logoLayers[4 * k] && props.logos[k] }}"
                                 },
                                 {
@@ -423,7 +427,7 @@
                                   "content": "{{ name | truncate(24) }}",
                                   "font": "mono",
                                   "fontSize": 11.5,
-                                  "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}",
+                                  "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}",
                                   "if": "{{ !(props.logoLayers[4 * k] || props.logos[k]) || props.logoWithName[k] }}"
                                 }
                               ]
@@ -451,12 +455,12 @@
               "content": "// languages",
               "font": "mono",
               "fontSize": 11.5,
-              "fill": "{{ props.theme == \"dark\" ? \"#808080\" : \"#8C8C8C\" }}"
+              "fill": "{{ props.theme == \"dark\" ? \"#888888\" : \"#6B6B6B\" }}"
             },
             {
               "type": "group",
               "repeat": {
-                "each": "{{ [github.languages[0], github.languages[1], github.languages[2], github.languages[3]] }}",
+                "each": "{{ [(props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[0], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[1], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[2], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[3]] }}",
                 "as": "lang",
                 "index": "j"
               },
@@ -493,60 +497,54 @@
                 },
                 {
                   "type": "group",
-                  "repeat": {
-                    "each": "{{ [176 * lang.share | max(2)] }}",
-                    "as": "bw"
+                  "let": {
+                    "bw": "{{ 176 * lang.share | max(2) }}"
                   },
+                  "x": 640,
+                  "y": "{{ 139 + j * 36 }}",
+                  "width": "{{ bw }}",
+                  "height": 4,
+                  "clip": true,
                   "children": [
                     {
                       "type": "group",
-                      "x": 640,
-                      "y": "{{ 139 + j * 36 }}",
-                      "width": "{{ bw }}",
-                      "height": 4,
-                      "clip": true,
+                      "x": -640,
+                      "y": "{{ 0 - (139 + j * 36) }}",
                       "children": [
                         {
-                          "type": "group",
-                          "x": -640,
-                          "y": "{{ 0 - (139 + j * 36) }}",
-                          "children": [
-                            {
-                              "type": "rect",
-                              "x": 640,
-                              "y": "{{ 139 + j * 36 }}",
-                              "width": "{{ bw }}",
-                              "height": 4,
-                              "fill": "{{ j == 0 ? (props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\") : (props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\") }}",
-                              "radius": 2,
-                              "animate": {
-                                "x": {
-                                  "keyframes": [
-                                    {
-                                      "offset": 0,
-                                      "value": 0
-                                    },
-                                    {
-                                      "offset": 0,
-                                      "value": "{{ 0 - bw }}"
-                                    },
-                                    {
-                                      "offset": 1,
-                                      "value": 0,
-                                      "easing": {
-                                        "x1": 0.2,
-                                        "y1": 0.8,
-                                        "x2": 0.3,
-                                        "y2": 1
-                                      }
-                                    }
-                                  ],
-                                  "duration": 1000,
-                                  "delay": "{{ 400 + j * 200 }}"
+                          "type": "rect",
+                          "x": 640,
+                          "y": "{{ 139 + j * 36 }}",
+                          "width": "{{ bw }}",
+                          "height": 4,
+                          "fill": "{{ j == 0 ? (props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\") : (props.theme == \"dark\" ? \"#C9C9CF\" : \"#3F3F46\") }}",
+                          "radius": 2,
+                          "animate": {
+                            "x": {
+                              "keyframes": [
+                                {
+                                  "offset": 0,
+                                  "value": 0
+                                },
+                                {
+                                  "offset": 0,
+                                  "value": "{{ 0 - bw }}"
+                                },
+                                {
+                                  "offset": 1,
+                                  "value": 0,
+                                  "easing": {
+                                    "x1": 0.2,
+                                    "y1": 0.8,
+                                    "x2": 0.3,
+                                    "y2": 1
+                                  }
                                 }
-                              }
+                              ],
+                              "duration": 1000,
+                              "delay": "{{ 400 + j * 200 }}"
                             }
-                          ]
+                          }
                         }
                       ]
                     }

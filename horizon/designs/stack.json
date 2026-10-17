@@ -50,6 +50,11 @@
           "values": ["light", "dark"],
           "default": "light"
         },
+        "languageShare": {
+          "type": "enum",
+          "values": ["bytes", "repositories", "authored"],
+          "default": "bytes"
+        },
         "labels": {
           "type": "array",
           "default": []
@@ -90,7 +95,7 @@
         {
           "type": "group",
           "repeat": {
-            "each": "{{ [github.languages[0], github.languages[1], github.languages[2]] }}",
+            "each": "{{ [(props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[0], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[1], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[2]] }}",
             "as": "lang",
             "index": "li"
           },

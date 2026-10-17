@@ -53,6 +53,11 @@
           "type": "number",
           "default": 2
         },
+        "languageShare": {
+          "type": "enum",
+          "values": ["bytes", "repositories", "authored"],
+          "default": "bytes"
+        },
         "logoLabels": {
           "type": "array",
           "default": []
@@ -93,9 +98,9 @@
       "layers": [
         {
           "type": "group",
-          "repeat": {
-            "each": "{{ [((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + ((github.languages | length | default(0)) > 0 ? 1 : 0)) < 8) ? props.logosRow : -1] }}",
-            "as": "sr"
+          "let": {
+            "sr": "{{ ((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + ((github.languages | length | default(0)) > 0 ? 1 : 0)) < 8) ? props.logosRow : -1 }}",
+            "langs": "{{ (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages)) }}"
           },
           "children": [
             {
@@ -286,6 +291,23 @@
                   "type": "group",
                   "x": 170,
                   "y": 0,
+                  "let": {
+                    "ln0": "{{ langs[0].name | default(\"\") | truncate(40) }}",
+                    "ln1": "{{ langs[1].name | default(\"\") | truncate(40) }}",
+                    "ln2": "{{ langs[2].name | default(\"\") | truncate(40) }}",
+                    "lp0": "{{ \" \" + ((langs[0].share | default(0)) * 100 | round | number(0, \"en\")) + \"%\" }}",
+                    "lp1": "{{ \" \" + ((langs[1].share | default(0)) * 100 | round | number(0, \"en\")) + \"%\" }}",
+                    "lp2": "{{ \" \" + ((langs[2].share | default(0)) * 100 | round | number(0, \"en\")) + \"%\" }}",
+                    "lw0": "{{ langs[0] ? (ln0 | textWidth(\"reg\", 15)) : 0 }}",
+                    "lw1": "{{ langs[1] ? (ln1 | textWidth(\"reg\", 15)) : 0 }}",
+                    "lw2": "{{ langs[2] ? (ln2 | textWidth(\"reg\", 15)) : 0 }}",
+                    "lq0": "{{ langs[0] ? ((ln0 + lp0) | textWidth(\"reg\", 15)) - lw0 : 0 }}",
+                    "lq1": "{{ langs[1] ? ((ln1 + lp1) | textWidth(\"reg\", 15)) - lw1 : 0 }}",
+                    "lq2": "{{ langs[2] ? ((ln2 + lp2) | textWidth(\"reg\", 15)) - lw2 : 0 }}",
+                    "la": "{{ 342 - 22 * ((langs | length | min(3)) - 1) - (lq0 + lq1 + lq2) }}",
+                    "lfit": "{{ lw0 + lw1 + lw2 <= la }}",
+                    "lcap": "{{ [la / 3, (la - lw0) / 2, (la - lw1) / 2, (la - lw2) / 2, la - lw0 - lw1, la - lw0 - lw2, la - lw1 - lw2, 0] | max }}"
+                  },
                   "layout": {
                     "type": "stack",
                     "direction": "row",
@@ -295,7 +317,7 @@
                     {
                       "type": "group",
                       "repeat": {
-                        "each": "{{ [github.languages[0], github.languages[1], github.languages[2]] }}",
+                        "each": "{{ [langs[0], langs[1], langs[2]] }}",
                         "as": "lang"
                       },
                       "if": "{{ lang }}",
@@ -304,7 +326,7 @@
                           "type": "text",
                           "x": 0,
                           "y": 8.292,
-                          "content": "{{ lang.name }} {{ lang.share * 100 | round }}%",
+                          "content": "{{ lfit ? (lang.name | truncate(40)) : (lang.name | truncate(40) | truncateWidth(lcap, \"reg\", 15)) }} {{ lang.share * 100 | round }}%",
                           "font": "reg",
                           "fontSize": 15,
                           "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
@@ -317,16 +339,16 @@
                   "type": "group",
                   "x": "{{ 520 + 320 * (0) }}",
                   "y": 15,
-                  "width": "{{ (320 * (github.languages[0].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * (langs[0].share | default(0)) - 2 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (github.languages[0].share | default(0)) - 2 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * (langs[0].share | default(0)) - 2 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (github.languages[0].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * (langs[0].share | default(0)) - 2 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
                       "animate": {
@@ -338,11 +360,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (github.languages[0].share | default(0)) - 2 | max(0)) }}"
+                              "value": "{{ 0 - (320 * (langs[0].share | default(0)) - 2 | max(0)) }}"
                             },
                             {
                               "offset": 0.2143,
-                              "value": "{{ 0 - (320 * (github.languages[0].share | default(0)) - 2 | max(0)) }}",
+                              "value": "{{ 0 - (320 * (langs[0].share | default(0)) - 2 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,
@@ -363,18 +385,18 @@
                 },
                 {
                   "type": "group",
-                  "x": "{{ 520 + 320 * ((github.languages[0].share | default(0))) }}",
+                  "x": "{{ 520 + 320 * ((langs[0].share | default(0))) }}",
                   "y": 15,
-                  "width": "{{ (320 * (github.languages[1].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * (langs[1].share | default(0)) - 2 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (github.languages[1].share | default(0)) - 2 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * (langs[1].share | default(0)) - 2 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (github.languages[1].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * (langs[1].share | default(0)) - 2 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}",
                       "animate": {
@@ -386,11 +408,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (github.languages[1].share | default(0)) - 2 | max(0)) }}"
+                              "value": "{{ 0 - (320 * (langs[1].share | default(0)) - 2 | max(0)) }}"
                             },
                             {
                               "offset": 0.3333,
-                              "value": "{{ 0 - (320 * (github.languages[1].share | default(0)) - 2 | max(0)) }}",
+                              "value": "{{ 0 - (320 * (langs[1].share | default(0)) - 2 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,
@@ -411,18 +433,18 @@
                 },
                 {
                   "type": "group",
-                  "x": "{{ 520 + 320 * ((github.languages[0].share | default(0)) + (github.languages[1].share | default(0))) }}",
+                  "x": "{{ 520 + 320 * ((langs[0].share | default(0)) + (langs[1].share | default(0))) }}",
                   "y": 15,
-                  "width": "{{ (320 * (github.languages[2].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * (langs[2].share | default(0)) - 2 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (github.languages[2].share | default(0)) - 2 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * (langs[2].share | default(0)) - 2 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (github.languages[2].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * (langs[2].share | default(0)) - 2 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#5A616B\" : \"#A1A6AE\" }}",
                       "animate": {
@@ -434,11 +456,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (github.languages[2].share | default(0)) - 2 | max(0)) }}"
+                              "value": "{{ 0 - (320 * (langs[2].share | default(0)) - 2 | max(0)) }}"
                             },
                             {
                               "offset": 0.4211,
-                              "value": "{{ 0 - (320 * (github.languages[2].share | default(0)) - 2 | max(0)) }}",
+                              "value": "{{ 0 - (320 * (langs[2].share | default(0)) - 2 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,
@@ -459,18 +481,18 @@
                 },
                 {
                   "type": "group",
-                  "x": "{{ 520 + 320 * ((github.languages[0].share | default(0)) + (github.languages[1].share | default(0)) + (github.languages[2].share | default(0))) }}",
+                  "x": "{{ 520 + 320 * ((langs[0].share | default(0)) + (langs[1].share | default(0)) + (langs[2].share | default(0))) }}",
                   "y": 15,
-                  "width": "{{ (320 * (1 - (github.languages[0].share | default(0)) - (github.languages[1].share | default(0)) - (github.languages[2].share | default(0)) | max(0)) - 0 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (1 - (github.languages[0].share | default(0)) - (github.languages[1].share | default(0)) - (github.languages[2].share | default(0)) | max(0)) - 0 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (1 - (github.languages[0].share | default(0)) - (github.languages[1].share | default(0)) - (github.languages[2].share | default(0)) | max(0)) - 0 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#2A2F37\" : \"#DDE0E5\" }}",
                       "animate": {
@@ -482,11 +504,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (1 - (github.languages[0].share | default(0)) - (github.languages[1].share | default(0)) - (github.languages[2].share | default(0)) | max(0)) - 0 | max(0)) }}"
+                              "value": "{{ 0 - (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) }}"
                             },
                             {
                               "offset": 0.4884,
-                              "value": "{{ 0 - (320 * (1 - (github.languages[0].share | default(0)) - (github.languages[1].share | default(0)) - (github.languages[2].share | default(0)) | max(0)) - 0 | max(0)) }}",
+                              "value": "{{ 0 - (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,
