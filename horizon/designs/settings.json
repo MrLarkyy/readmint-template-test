@@ -1,9 +1,9 @@
 {
   "header": {
     "role": "Backend engineer",
-    "roleDetail": "Kotlin & the JVM",
-    "workingOn": "Messaging systems,",
-    "workingOnDetail": "internal tooling",
+    "roleDetail": "Kotlin, Java & the JVM",
+    "workingOn": "Backend services,",
+    "workingOnDetail": "messaging & tooling",
     "statusNote": "Open to collaborations"
   },
   "stack": {
@@ -14,9 +14,9 @@
       "Tools"
     ],
     "items": [
-      "Ktor\nSpring",
-      "Redis\nRabbitMQ\nNATS",
-      "PostgreSQL\nMySQL\nMariaDB\nSQLite\nProtobuf",
+      "Ktor\nSpring Boot\nExposed\nNetty",
+      "Redis\nRabbitMQ\nNATS\nProtobuf",
+      "PostgreSQL\nMySQL\nMariaDB\nSQLite",
       "IntelliJ IDEA\nRider\nWebStorm\nGradle"
     ]
   },
@@ -28,16 +28,13 @@
       "Mineclub",
       "SWN Moravia",
       "we.builders",
-      "Partners",
-      "MrBeast",
-      "SpeedSilver",
-      "DiamondXR"
+      "Partners"
     ]
   },
   "footer": {
     "headline": "Open to long-term\ncollaborations.",
     "note": "Backend-heavy projects,\ntooling and infrastructure.",
-    "contactLabel": "discord",
-    "contactText": "discord.aquatic.gg"
+    "contactLabel": "linkedin",
+    "contactText": "linkedin.com/in/tadeas-ganzwohl"
   }
 }
