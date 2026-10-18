@@ -1,6 +1,6 @@
 # Readmint template test
 
-The Readmint profile templates, rendered by the [Readmint Action](https://github.com/MrLarkyy/Readmint) `v0.5.0`
+The Readmint profile templates, rendered by the [Readmint Action](https://github.com/MrLarkyy/Readmint) `v0.5.1`
 with live data of MrLarkyy. The workflow in `.github/workflows/readmint.yml` renders every section daily and on demand
 and commits the SVGs; light and dark follow your GitHub theme.
 

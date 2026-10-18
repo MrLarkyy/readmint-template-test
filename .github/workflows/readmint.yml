@@ -19,21 +19,21 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Render year-ring
-        uses: MrLarkyy/Readmint@v0.5.0
+        uses: MrLarkyy/Readmint@v0.5.1
         with:
           output-dir: year-ring/readmint
           props-file: year-ring/designs/settings.json
           commit-message: "Update year-ring graphics"
           manifest: year-ring/designs/renders.json
       - name: Render horizon
-        uses: MrLarkyy/Readmint@v0.5.0
+        uses: MrLarkyy/Readmint@v0.5.1
         with:
           output-dir: horizon/readmint
           props-file: horizon/designs/settings.json
           commit-message: "Update horizon graphics"
           manifest: horizon/designs/renders.json
       - name: Render pinscreen
-        uses: MrLarkyy/Readmint@v0.5.0
+        uses: MrLarkyy/Readmint@v0.5.1
         with:
           output-dir: pinscreen/readmint
           props-file: pinscreen/designs/settings.json
