@@ -16,11 +16,31 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["ns"]
       },
       "mono": {
         "family": "Geist Mono",
         "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nm"]
+      },
+      "ns": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nm": {
+        "family": "Noto Sans Mono",
+        "src": "fonts/NotoSansMono-Regular.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",
@@ -32,6 +52,20 @@
   "animation": {
     "duration": 54000,
     "loop": true
+  },
+  "palette": {
+    "light": {
+      "ink": "#0A0A0A",
+      "accent": "#E5484D",
+      "muted": "#71717A",
+      "dim": "#71717A"
+    },
+    "dark": {
+      "ink": "#EDEDED",
+      "accent": "#FF6369",
+      "muted": "#8B8B94",
+      "dim": "#84848E"
+    }
   },
   "components": {
     "card": {
@@ -91,7 +125,7 @@
                               "type": "path",
                               "d": "M{{ pp[0] }} {{ pp[1] }} L{{ pp[4] }} {{ pp[5] }}",
                               "fill": "none",
-                              "stroke": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}",
+                              "stroke": "{{ palette.ink }}",
                               "strokeWidth": 1.6,
                               "opacity": 0.07,
                               "if": "{{ hh > 0 }}"
@@ -128,7 +162,7 @@
                                   "type": "path",
                                   "d": "M{{ pp[0] }} {{ pp[1] }} L{{ pp[2] }} {{ pp[3] }}",
                                   "fill": "none",
-                                  "stroke": "{{ isT ? (props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\") : (props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\") }}",
+                                  "stroke": "{{ isT ? palette.accent : palette.ink }}",
                                   "strokeWidth": "{{ 0.95 * pp[6] }}",
                                   "opacity": "{{ op }}",
                                   "if": "{{ hh > 0 }}"
@@ -139,7 +173,7 @@
                                   "y": "{{ pp[3] - (isT ? 3.2 : (hh > 0 ? 2 : 1.1)) * pp[6] }}",
                                   "width": "{{ 2 * (isT ? 3.2 : (hh > 0 ? 2 : 1.1)) * pp[6] }}",
                                   "height": "{{ 2 * (isT ? 3.2 : (hh > 0 ? 2 : 1.1)) * pp[6] }}",
-                                  "fill": "{{ isT ? (props.theme == \"dark\" ? \"#FF6369\" : \"#E5484D\") : (props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\") }}",
+                                  "fill": "{{ isT ? palette.accent : palette.ink }}",
                                   "opacity": "{{ op }}"
                                 }
                               ]
@@ -178,7 +212,7 @@
                       "content": "{{ day.date | date(\"MMM\") | lower }}",
                       "font": "mono",
                       "fontSize": 10,
-                      "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+                      "fill": "{{ palette.muted }}"
                     }
                   ]
                 }
@@ -203,7 +237,7 @@
                   "content": "{{ [\"S\", \"M\", \"T\", \"W\", \"T\", \"F\", \"S\"][wr] }}",
                   "font": "mono",
                   "fontSize": 10,
-                  "fill": "{{ props.theme == \"dark\" ? \"#84848E\" : \"#71717A\" }}"
+                  "fill": "{{ palette.dim }}"
                 }
               ]
             }
@@ -216,7 +250,7 @@
           "content": "contributions · last 12 months",
           "font": "mono",
           "fontSize": 11,
-          "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+          "fill": "{{ palette.muted }}"
         },
         {
           "type": "group",
@@ -276,7 +310,7 @@
                           "align": "middle",
                           "font": "gs",
                           "fontSize": 48,
-                          "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}",
+                          "fill": "{{ palette.ink }}",
                           "animate": {
                             "y": {
                               "keyframes": [
@@ -326,7 +360,7 @@
                   "content": ",",
                   "font": "gs",
                   "fontSize": 48,
-                  "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}",
+                  "fill": "{{ palette.ink }}",
                   "align": "middle"
                 }
               ]
@@ -340,7 +374,7 @@
           "content": "{{ (github.contributions.total) | compact }}",
           "font": "gs",
           "fontSize": 48,
-          "fill": "{{ props.theme == \"dark\" ? \"#EDEDED\" : \"#0A0A0A\" }}",
+          "fill": "{{ palette.ink }}",
           "if": "{{ (github.contributions.total) >= 10000000 }}"
         },
         {
@@ -352,7 +386,7 @@
           "content": "one pin per day · ripple from today",
           "font": "mono",
           "fontSize": 11,
-          "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
+          "fill": "{{ palette.muted }}"
         }
       ]
     }

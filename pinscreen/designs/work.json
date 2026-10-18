@@ -16,11 +16,31 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["ns"]
       },
       "mono": {
         "family": "Geist Mono",
         "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nm"]
+      },
+      "ns": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nm": {
+        "family": "Noto Sans Mono",
+        "src": "fonts/NotoSansMono-Regular.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",

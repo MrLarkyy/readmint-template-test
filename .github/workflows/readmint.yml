@@ -19,60 +19,23 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Render year-ring
-        uses: MrLarkyy/Readmint@v0.4.0
+        uses: MrLarkyy/Readmint@v0.5.0
         with:
           output-dir: year-ring/readmint
           props-file: year-ring/designs/settings.json
           commit-message: "Update year-ring graphics"
-          designs: |
-            year-ring/designs/footer.json
-            year-ring/designs/header.json
-            year-ring/designs/index.json
-            year-ring/designs/recent.json
-            year-ring/designs/repo-1.json
-            year-ring/designs/repo-2.json
-            year-ring/designs/repo-3.json
-            year-ring/designs/repo-4.json
-            year-ring/designs/repo-5.json
-            year-ring/designs/repo-6.json
-            year-ring/designs/work.json
-            year-ring/designs/year.json
+          manifest: year-ring/designs/renders.json
       - name: Render horizon
-        uses: MrLarkyy/Readmint@v0.4.0
+        uses: MrLarkyy/Readmint@v0.5.0
         with:
           output-dir: horizon/readmint
           props-file: horizon/designs/settings.json
           commit-message: "Update horizon graphics"
-          designs: |
-            horizon/designs/footer.json
-            horizon/designs/header.json
-            horizon/designs/repo-1.json
-            horizon/designs/repo-2.json
-            horizon/designs/repo-3.json
-            horizon/designs/repo-4.json
-            horizon/designs/repo-5.json
-            horizon/designs/repo-6.json
-            horizon/designs/stack.json
-            horizon/designs/ticker.json
-            horizon/designs/work.json
-            horizon/designs/worked.json
-            horizon/designs/year.json
+          manifest: horizon/designs/renders.json
       - name: Render pinscreen
-        uses: MrLarkyy/Readmint@v0.4.0
+        uses: MrLarkyy/Readmint@v0.5.0
         with:
           output-dir: pinscreen/readmint
           props-file: pinscreen/designs/settings.json
           commit-message: "Update pinscreen graphics"
-          designs: |
-            pinscreen/designs/footer.json
-            pinscreen/designs/header.json
-            pinscreen/designs/log.json
-            pinscreen/designs/repo-1.json
-            pinscreen/designs/repo-2.json
-            pinscreen/designs/repo-3.json
-            pinscreen/designs/repo-4.json
-            pinscreen/designs/repo-5.json
-            pinscreen/designs/repo-6.json
-            pinscreen/designs/stack.json
-            pinscreen/designs/work.json
-            pinscreen/designs/year.json
+          manifest: pinscreen/designs/renders.json

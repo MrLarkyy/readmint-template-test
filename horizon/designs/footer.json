@@ -16,7 +16,8 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["nxb"]
       },
       "scm": {
         "family": "Archivo SemiCondensed",
@@ -25,11 +26,40 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["nscm"]
       },
       "reg": {
         "family": "Archivo",
         "src": "fonts/Archivo-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nsc"]
+      },
+      "nxb": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-ExtraCondensedExtraBold.ttf",
+        "weight": 800,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nscm": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-SemiCondensedMedium.ttf",
+        "weight": 500,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nsc": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-SemiCondensed.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",
@@ -39,6 +69,16 @@
       "mono": {
         "family": "Geist Mono",
         "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nm"]
+      },
+      "nm": {
+        "family": "Noto Sans Mono",
+        "src": "fonts/NotoSansMono-Regular.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",

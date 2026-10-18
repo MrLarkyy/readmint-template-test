@@ -5,7 +5,7 @@
   "description": "The stack behind the work as a build file, with the languages of the public repositories as bars beside it.",
   "canvas": {
     "width": 840,
-    "height": "{{ 96 + 20 * (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + (props.noteLabels | length | min(3)) + (((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.noteLabels | length | min(3)) && props.logosRow == (props.logosRow | floor)) ? (props.logoLabels | length | clamp(1, 4)) : 0)) | max(132 + 36 * (github.languages | length | default(0) | min(4))) }}"
+    "height": "{{ 96 + 20 * (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + (props.noteLabels | length | min(3)) + (((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.noteLabels | length | min(3)) && props.logosRow == (props.logosRow | floor)) ? (props.logoLabels | length | clamp(1, 4)) : 0)) | max(132 + 36 * ((props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages)) | exclude(\"name\", props.languagesHide) | length | default(0) | min(4))) }}"
   },
   "assets": {
     "fonts": {
@@ -16,11 +16,31 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["ns"]
       },
       "mono": {
         "family": "Geist Mono",
         "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nm"]
+      },
+      "ns": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nm": {
+        "family": "Noto Sans Mono",
+        "src": "fonts/NotoSansMono-Regular.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",
@@ -45,6 +65,10 @@
           "type": "enum",
           "values": ["bytes", "repositories", "authored"],
           "default": "bytes"
+        },
+        "languagesHide": {
+          "type": "array",
+          "default": []
         },
         "plugin": {
           "type": "string",
@@ -107,7 +131,11 @@
         {
           "type": "group",
           "let": {
-            "sr": "{{ ((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.noteLabels | length | min(3)) && props.logosRow == (props.logosRow | floor)) ? props.logosRow : -1 }}"
+            "sr": "{{ ((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.noteLabels | length | min(3)) && props.logosRow == (props.logosRow | floor)) ? props.logosRow : -1 }}",
+            "all": "{{ (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages)) }}",
+            "langs": "{{ all | exclude(\"name\", props.languagesHide) }}",
+            "lk": "{{ ((langs | length | default(0)) < (all | length | default(0)) && (langs | sum(\"share\")) > 0) ? 1 / (langs | sum(\"share\")) : 1 }}",
+            "lc": "{{ langs | length | default(0) }}"
           },
           "children": [
             {
@@ -144,7 +172,7 @@
               "x": 0.5,
               "y": 40.5,
               "width": 839,
-              "height": "{{ (96 + 20 * (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + (props.noteLabels | length | min(3)) + (sr >= 0 ? (props.logoLabels | length | clamp(1, 4)) : 0)) | max(132 + 36 * (github.languages | length | default(0) | min(4)))) - 41 }}",
+              "height": "{{ (96 + 20 * (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + (props.noteLabels | length | min(3)) + (sr >= 0 ? (props.logoLabels | length | clamp(1, 4)) : 0)) | max(132 + 36 * (lc | min(4)))) - 41 }}",
               "fill": "{{ props.theme == \"dark\" ? \"#12161d\" : \"#FAFAFA\" }}",
               "radius": 10,
               "stroke": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}",
@@ -445,7 +473,7 @@
               "x": 620,
               "y": 92,
               "width": 1,
-              "height": "{{ (96 + 20 * (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + (props.noteLabels | length | min(3)) + (sr >= 0 ? (props.logoLabels | length | clamp(1, 4)) : 0)) | max(132 + 36 * (github.languages | length | default(0) | min(4)))) - 112 }}",
+              "height": "{{ (96 + 20 * (1 + (props.plugin ? 4 : 0) + ((props.labels | length | min(4)) > 0 ? (props.labels | length | min(4)) + 3 : 0) + (props.noteLabels | length | min(3)) + (sr >= 0 ? (props.logoLabels | length | clamp(1, 4)) : 0)) | max(132 + 36 * (lc | min(4)))) - 112 }}",
               "fill": "{{ props.theme == \"dark\" ? \"#26272B\" : \"#E4E4E7\" }}"
             },
             {
@@ -460,7 +488,7 @@
             {
               "type": "group",
               "repeat": {
-                "each": "{{ [(props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[0], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[1], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[2], (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages))[3]] }}",
+                "each": "{{ [langs[0], langs[1], langs[2], langs[3]] }}",
                 "as": "lang",
                 "index": "j"
               },
@@ -481,7 +509,7 @@
                   "width": 80,
                   "align": "end",
                   "y": "{{ 132 + j * 36 - 10.982 }}",
-                  "content": "{{ lang.share * 100 | number(1) }}%",
+                  "content": "{{ lang.share * lk * 100 | number(1) }}%",
                   "font": "mono",
                   "fontSize": 11.5,
                   "fill": "{{ props.theme == \"dark\" ? \"#8B8B94\" : \"#71717A\" }}"
@@ -498,7 +526,7 @@
                 {
                   "type": "group",
                   "let": {
-                    "bw": "{{ 176 * lang.share | max(2) }}"
+                    "bw": "{{ 176 * (lang.share * lk) | max(2) }}"
                   },
                   "x": 640,
                   "y": "{{ 139 + j * 36 }}",

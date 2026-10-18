@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/renders-v0.schema.json",
+  "renders": [
+    { "name": "header", "design": "header.json", "variants": ["dark"] },
+    { "name": "year", "design": "year.json", "variants": ["dark"] },
+    { "name": "index", "design": "index.json", "variants": ["dark"] },
+    { "name": "recent", "design": "recent.json", "variants": ["dark"] },
+    { "name": "work", "design": "work.json", "variants": ["dark"] },
+    { "name": "repo-1", "design": "repo.json", "props": { "slot": 0 }, "variants": ["dark"] },
+    { "name": "repo-2", "design": "repo.json", "props": { "slot": 1 }, "variants": ["dark"] },
+    { "name": "repo-3", "design": "repo.json", "props": { "slot": 2 }, "variants": ["dark"] },
+    { "name": "repo-4", "design": "repo.json", "props": { "slot": 3 }, "variants": ["dark"] },
+    { "name": "repo-5", "design": "repo.json", "props": { "slot": 4 }, "variants": ["dark"] },
+    { "name": "repo-6", "design": "repo.json", "props": { "slot": 5 }, "variants": ["dark"] },
+    { "name": "footer", "design": "footer.json", "variants": ["dark"] }
+  ]
+}

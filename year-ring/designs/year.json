@@ -16,7 +16,8 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["nlight"]
       },
       "med": {
         "family": "Archivo SemiExpanded",
@@ -25,7 +26,8 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["nmed"]
       },
       "semi": {
         "family": "Archivo SemiExpanded",
@@ -34,11 +36,49 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["nsemibold"]
       },
       "reg": {
         "family": "Archivo",
         "src": "fonts/Archivo-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nreg"]
+      },
+      "nlight": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-Light.ttf",
+        "weight": 300,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nmed": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-Medium.ttf",
+        "weight": 500,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nsemibold": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nreg": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-Regular.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",
@@ -50,6 +90,30 @@
   "animation": {
     "duration": 60000,
     "loop": true
+  },
+  "palette": {
+    "light": {
+      "ink": "#15171C",
+      "muted": "#696E77",
+      "inkTint": "#15171C13",
+      "inkClear": "#15171C00",
+      "rule": "#DDE0E5",
+      "accent": "#2B4BFF",
+      "faint": "#A1A6AE",
+      "page": "#ffffff",
+      "soft": "#3B3F47"
+    },
+    "dark": {
+      "ink": "#ECEEF2",
+      "muted": "#8E949D",
+      "inkTint": "#ECEEF213",
+      "inkClear": "#ECEEF200",
+      "rule": "#2A2F37",
+      "accent": "#8C9BFF",
+      "faint": "#5A616B",
+      "page": "#0d1117",
+      "soft": "#C3C8CF"
+    }
   },
   "components": {
     "card": {
@@ -69,7 +133,7 @@
           "font": "semi",
           "fontSize": 11,
           "letterSpacing": 1.76,
-          "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
+          "fill": "{{ palette.ink }}"
         },
         {
           "type": "text",
@@ -81,7 +145,7 @@
           "font": "reg",
           "fontSize": 11,
           "letterSpacing": 0.44,
-          "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+          "fill": "{{ palette.muted }}"
         },
         {
           "type": "group",
@@ -103,11 +167,11 @@
                 "stops": [
                   {
                     "offset": 0,
-                    "color": "{{ props.theme == \"dark\" ? \"#ECEEF213\" : \"#15171C13\" }}"
+                    "color": "{{ palette.inkTint }}"
                   },
                   {
                     "offset": 1,
-                    "color": "{{ props.theme == \"dark\" ? \"#ECEEF200\" : \"#15171C00\" }}"
+                    "color": "{{ palette.inkClear }}"
                   }
                 ]
               }
@@ -119,7 +183,7 @@
               "width": 579.74,
               "height": 165.4,
               "fill": "none",
-              "stroke": "{{ props.theme == \"dark\" ? \"#2A2F37\" : \"#DDE0E5\" }}",
+              "stroke": "{{ palette.rule }}",
               "strokeWidth": 1
             },
             {
@@ -145,7 +209,7 @@
                   "type": "path",
                   "d": "M0 0 V{{ 0 - (day.count <= 1 ? day.count : (day.count <= 4 ? 1 + (day.count - 1) / 3 * 1 : (day.count <= 9 ? 2 + (day.count - 4) / 5 * 1 : (day.count <= 16 ? 3 + (day.count - 9) / 7 * 1 : (day.count <= 36 ? 4 + (day.count - 16) / 20 * 2 : (day.count <= 64 ? 6 + (day.count - 36) / 28 * 2 : (day.count <= 100 ? 8 + (day.count - 64) / 36 * 2 : (day.count <= 169 ? 10 + (day.count - 100) / 69 * 3 : (day.count <= 256 ? 13 + (day.count - 169) / 87 * 3 : (day.count <= 400 ? 16 + (day.count - 256) / 144 * 4 : (day.count <= 1024 ? 20 + (day.count - 400) / 624 * 12 : (day.count <= 4096 ? 32 + (day.count - 1024) / 3072 * 32 : (day.count <= 16384 ? 64 + (day.count - 4096) / 12288 * 64 : 128))))))))))))) / mxs * 77.3 | round(2) }}",
                   "fill": "none",
-                  "stroke": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+                  "stroke": "{{ palette.ink }}",
                   "strokeWidth": 1.25,
                   "opacity": "{{ 0.22 + 0.78 * ((day.count <= 1 ? day.count : (day.count <= 4 ? 1 + (day.count - 1) / 3 * 1 : (day.count <= 9 ? 2 + (day.count - 4) / 5 * 1 : (day.count <= 16 ? 3 + (day.count - 9) / 7 * 1 : (day.count <= 36 ? 4 + (day.count - 16) / 20 * 2 : (day.count <= 64 ? 6 + (day.count - 36) / 28 * 2 : (day.count <= 100 ? 8 + (day.count - 64) / 36 * 2 : (day.count <= 169 ? 10 + (day.count - 100) / 69 * 3 : (day.count <= 256 ? 13 + (day.count - 169) / 87 * 3 : (day.count <= 400 ? 16 + (day.count - 256) / 144 * 4 : (day.count <= 1024 ? 20 + (day.count - 400) / 624 * 12 : (day.count <= 4096 ? 32 + (day.count - 1024) / 3072 * 32 : (day.count <= 16384 ? 64 + (day.count - 4096) / 12288 * 64 : 128))))))))))))) / mxs) }}",
                   "if": "{{ day.count > 0 }}"
@@ -156,7 +220,7 @@
                   "y": -0.9375,
                   "width": 1.875,
                   "height": 1.875,
-                  "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+                  "fill": "{{ palette.ink }}",
                   "opacity": 0.38,
                   "if": "{{ day.count == 0 }}"
                 },
@@ -166,7 +230,7 @@
                   "y": -1.4,
                   "width": 2.8,
                   "height": 2.8,
-                  "fill": "{{ props.theme == \"dark\" ? \"#8C9BFF\" : \"#2B4BFF\" }}",
+                  "fill": "{{ palette.accent }}",
                   "if": "{{ github.contributions.streaks.longest.length > 1 && day.date >= github.contributions.streaks.longest.start && day.date <= github.contributions.streaks.longest.end }}"
                 }
               ]
@@ -190,7 +254,7 @@
                   "font": "med",
                   "fontSize": 10,
                   "letterSpacing": 1.2,
-                  "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}",
+                  "fill": "{{ palette.muted }}",
                   "orbit": {
                     "center": {
                       "x": 420,
@@ -212,7 +276,7 @@
                   "y": 5,
                   "width": 3,
                   "height": 3,
-                  "fill": "{{ props.theme == \"dark\" ? \"#5A616B\" : \"#A1A6AE\" }}",
+                  "fill": "{{ palette.faint }}",
                   "orbit": {
                     "center": {
                       "x": 420,
@@ -249,7 +313,7 @@
                   "type": "path",
                   "d": "M0 0 V{{ 0 - ((day.count <= 1 ? day.count : (day.count <= 4 ? 1 + (day.count - 1) / 3 * 1 : (day.count <= 9 ? 2 + (day.count - 4) / 5 * 1 : (day.count <= 16 ? 3 + (day.count - 9) / 7 * 1 : (day.count <= 36 ? 4 + (day.count - 16) / 20 * 2 : (day.count <= 64 ? 6 + (day.count - 36) / 28 * 2 : (day.count <= 100 ? 8 + (day.count - 64) / 36 * 2 : (day.count <= 169 ? 10 + (day.count - 100) / 69 * 3 : (day.count <= 256 ? 13 + (day.count - 169) / 87 * 3 : (day.count <= 400 ? 16 + (day.count - 256) / 144 * 4 : (day.count <= 1024 ? 20 + (day.count - 400) / 624 * 12 : (day.count <= 4096 ? 32 + (day.count - 1024) / 3072 * 32 : (day.count <= 16384 ? 64 + (day.count - 4096) / 12288 * 64 : 128))))))))))))) / mxs * 77.3 | max(9.28)) }}",
                   "fill": "none",
-                  "stroke": "{{ props.theme == \"dark\" ? \"#8C9BFF\" : \"#2B4BFF\" }}",
+                  "stroke": "{{ palette.accent }}",
                   "strokeWidth": 2.25
                 },
                 {
@@ -258,7 +322,7 @@
                   "y": "{{ 0 - ((day.count <= 1 ? day.count : (day.count <= 4 ? 1 + (day.count - 1) / 3 * 1 : (day.count <= 9 ? 2 + (day.count - 4) / 5 * 1 : (day.count <= 16 ? 3 + (day.count - 9) / 7 * 1 : (day.count <= 36 ? 4 + (day.count - 16) / 20 * 2 : (day.count <= 64 ? 6 + (day.count - 36) / 28 * 2 : (day.count <= 100 ? 8 + (day.count - 64) / 36 * 2 : (day.count <= 169 ? 10 + (day.count - 100) / 69 * 3 : (day.count <= 256 ? 13 + (day.count - 169) / 87 * 3 : (day.count <= 400 ? 16 + (day.count - 256) / 144 * 4 : (day.count <= 1024 ? 20 + (day.count - 400) / 624 * 12 : (day.count <= 4096 ? 32 + (day.count - 1024) / 3072 * 32 : (day.count <= 16384 ? 64 + (day.count - 4096) / 12288 * 64 : 128))))))))))))) / mxs * 77.3 | max(9.28)) - 3 }}",
                   "width": 6,
                   "height": 6,
-                  "fill": "{{ props.theme == \"dark\" ? \"#8C9BFF\" : \"#2B4BFF\" }}"
+                  "fill": "{{ palette.accent }}"
                 },
                 {
                   "type": "ellipse",
@@ -267,7 +331,7 @@
                   "width": 6,
                   "height": 6,
                   "fill": "none",
-                  "stroke": "{{ props.theme == \"dark\" ? \"#8C9BFF\" : \"#2B4BFF\" }}",
+                  "stroke": "{{ palette.accent }}",
                   "strokeWidth": 0.5,
                   "animate": {
                     "opacity": {
@@ -317,15 +381,15 @@
                 "stops": [
                   {
                     "offset": 0,
-                    "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"b3\" }}"
+                    "color": "{{ palette.page + \"b3\" }}"
                   },
                   {
                     "offset": 0.55,
-                    "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"73\" }}"
+                    "color": "{{ palette.page + \"73\" }}"
                   },
                   {
                     "offset": 1,
-                    "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"00\" }}"
+                    "color": "{{ palette.page + \"00\" }}"
                   }
                 ]
               }
@@ -341,15 +405,15 @@
                 "stops": [
                   {
                     "offset": 0,
-                    "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"e6\" }}"
+                    "color": "{{ palette.page + \"e6\" }}"
                   },
                   {
                     "offset": 0.6,
-                    "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"99\" }}"
+                    "color": "{{ palette.page + \"99\" }}"
                   },
                   {
                     "offset": 1,
-                    "color": "{{ (props.theme == \"dark\" ? \"#0d1117\" : \"#ffffff\") + \"00\" }}"
+                    "color": "{{ palette.page + \"00\" }}"
                   }
                 ]
               }
@@ -364,7 +428,7 @@
               "font": "med",
               "fontSize": 11,
               "letterSpacing": 1.76,
-              "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+              "fill": "{{ palette.muted }}"
             },
             {
               "type": "group",
@@ -417,7 +481,7 @@
                       "align": "middle",
                       "font": "thin",
                       "fontSize": 58,
-                      "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+                      "fill": "{{ palette.ink }}",
                       "animate": {
                         "y": {
                           "keyframes": [
@@ -457,7 +521,7 @@
               "content": ",",
               "font": "thin",
               "fontSize": 58,
-              "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+              "fill": "{{ palette.ink }}",
               "align": "middle",
               "repeat": {
                 "each": "{{ [3, 6] }}",
@@ -474,7 +538,7 @@
               "content": "{{ (github.contributions.total) | compact }}",
               "font": "thin",
               "fontSize": 58,
-              "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
+              "fill": "{{ palette.ink }}",
               "if": "{{ (github.contributions.total) >= 10000000 }}"
             },
             {
@@ -486,7 +550,7 @@
               "content": "contributions",
               "font": "reg",
               "fontSize": 14,
-              "fill": "{{ props.theme == \"dark\" ? \"#C3C8CF\" : \"#3B3F47\" }}"
+              "fill": "{{ palette.soft }}"
             },
             {
               "type": "group",
@@ -505,9 +569,12 @@
                 "s5": "{{ (d[o5 + 0].count || 0) + (d[o5 + 7].count || 0) + (d[o5 + 14].count || 0) + (d[o5 + 21].count || 0) + (d[o5 + 28].count || 0) + (d[o5 + 35].count || 0) + (d[o5 + 42].count || 0) + (d[o5 + 49].count || 0) + (d[o5 + 56].count || 0) + (d[o5 + 63].count || 0) + (d[o5 + 70].count || 0) + (d[o5 + 77].count || 0) + (d[o5 + 84].count || 0) + (d[o5 + 91].count || 0) + (d[o5 + 98].count || 0) + (d[o5 + 105].count || 0) + (d[o5 + 112].count || 0) + (d[o5 + 119].count || 0) + (d[o5 + 126].count || 0) + (d[o5 + 133].count || 0) + (d[o5 + 140].count || 0) + (d[o5 + 147].count || 0) + (d[o5 + 154].count || 0) + (d[o5 + 161].count || 0) + (d[o5 + 168].count || 0) + (d[o5 + 175].count || 0) + (d[o5 + 182].count || 0) + (d[o5 + 189].count || 0) + (d[o5 + 196].count || 0) + (d[o5 + 203].count || 0) + (d[o5 + 210].count || 0) + (d[o5 + 217].count || 0) + (d[o5 + 224].count || 0) + (d[o5 + 231].count || 0) + (d[o5 + 238].count || 0) + (d[o5 + 245].count || 0) + (d[o5 + 252].count || 0) + (d[o5 + 259].count || 0) + (d[o5 + 266].count || 0) + (d[o5 + 273].count || 0) + (d[o5 + 280].count || 0) + (d[o5 + 287].count || 0) + (d[o5 + 294].count || 0) + (d[o5 + 301].count || 0) + (d[o5 + 308].count || 0) + (d[o5 + 315].count || 0) + (d[o5 + 322].count || 0) + (d[o5 + 329].count || 0) + (d[o5 + 336].count || 0) + (d[o5 + 343].count || 0) + (d[o5 + 350].count || 0) + (d[o5 + 357].count || 0) + (d[o5 + 364].count || 0) + (d[o5 + 371].count || 0) }}",
                 "o6": "{{ (6 - (d[0].weekday || 0) + 7) % 7 }}",
                 "s6": "{{ (d[o6 + 0].count || 0) + (d[o6 + 7].count || 0) + (d[o6 + 14].count || 0) + (d[o6 + 21].count || 0) + (d[o6 + 28].count || 0) + (d[o6 + 35].count || 0) + (d[o6 + 42].count || 0) + (d[o6 + 49].count || 0) + (d[o6 + 56].count || 0) + (d[o6 + 63].count || 0) + (d[o6 + 70].count || 0) + (d[o6 + 77].count || 0) + (d[o6 + 84].count || 0) + (d[o6 + 91].count || 0) + (d[o6 + 98].count || 0) + (d[o6 + 105].count || 0) + (d[o6 + 112].count || 0) + (d[o6 + 119].count || 0) + (d[o6 + 126].count || 0) + (d[o6 + 133].count || 0) + (d[o6 + 140].count || 0) + (d[o6 + 147].count || 0) + (d[o6 + 154].count || 0) + (d[o6 + 161].count || 0) + (d[o6 + 168].count || 0) + (d[o6 + 175].count || 0) + (d[o6 + 182].count || 0) + (d[o6 + 189].count || 0) + (d[o6 + 196].count || 0) + (d[o6 + 203].count || 0) + (d[o6 + 210].count || 0) + (d[o6 + 217].count || 0) + (d[o6 + 224].count || 0) + (d[o6 + 231].count || 0) + (d[o6 + 238].count || 0) + (d[o6 + 245].count || 0) + (d[o6 + 252].count || 0) + (d[o6 + 259].count || 0) + (d[o6 + 266].count || 0) + (d[o6 + 273].count || 0) + (d[o6 + 280].count || 0) + (d[o6 + 287].count || 0) + (d[o6 + 294].count || 0) + (d[o6 + 301].count || 0) + (d[o6 + 308].count || 0) + (d[o6 + 315].count || 0) + (d[o6 + 322].count || 0) + (d[o6 + 329].count || 0) + (d[o6 + 336].count || 0) + (d[o6 + 343].count || 0) + (d[o6 + 350].count || 0) + (d[o6 + 357].count || 0) + (d[o6 + 364].count || 0) + (d[o6 + 371].count || 0) }}",
-                "busy": "{{ (s0 >= s1 && s0 >= s2 && s0 >= s3 && s0 >= s4 && s0 >= s5 && s0 >= s6 ? 0 : (s1 >= s2 && s1 >= s3 && s1 >= s4 && s1 >= s5 && s1 >= s6 ? 1 : (s2 >= s3 && s2 >= s4 && s2 >= s5 && s2 >= s6 ? 2 : (s3 >= s4 && s3 >= s5 && s3 >= s6 ? 3 : (s4 >= s5 && s4 >= s6 ? 4 : (s5 >= s6 ? 5 : 6)))))) }}"
+                "busy": "{{ (s0 >= s1 && s0 >= s2 && s0 >= s3 && s0 >= s4 && s0 >= s5 && s0 >= s6 ? 0 : (s1 >= s2 && s1 >= s3 && s1 >= s4 && s1 >= s5 && s1 >= s6 ? 1 : (s2 >= s3 && s2 >= s4 && s2 >= s5 && s2 >= s6 ? 2 : (s3 >= s4 && s3 >= s5 && s3 >= s6 ? 3 : (s4 >= s5 && s4 >= s6 ? 4 : (s5 >= s6 ? 5 : 6)))))) }}",
+                "streakText": "{{ \"Longest streak, \" + (github.contributions.streaks.longest.length | number) + (github.contributions.streaks.longest.length == 1 ? \" day\" : \" days\") }}",
+                "busyText": "{{ \"Busiest on \" + [\"Sundays\", \"Mondays\", \"Tuesdays\", \"Wednesdays\", \"Thursdays\", \"Fridays\", \"Saturdays\"][busy] }}"
               },
-              "x": "{{ 420 - (5 * 6.2 + 18 + 26 + (16 + (github.contributions.streaks.longest.length | number | length) + 5) * 6.2 + 28 + 26 + (11 + ([\"Sundays\", \"Mondays\", \"Tuesdays\", \"Wednesdays\", \"Thursdays\", \"Fridays\", \"Saturdays\"][busy] | length)) * 6.2) / 2 }}",
+              "x": "{{ 420 - (16 + (\"Today\" | textWidth(\"reg\", 12)) + (github.contributions.streaks.longest.length > 1 ? 34 + (streakText | textWidth(\"reg\", 12)) : 0) + (top > 0 ? 8 + (busyText | textWidth(\"reg\", 12)) : 0)) / 2 }}",
+              "if": "{{ n > 0 }}",
               "y": 390,
               "layout": {
                 "type": "stack",
@@ -525,7 +592,7 @@
                       "y": -7.5,
                       "width": 7,
                       "height": 7,
-                      "fill": "{{ props.theme == \"dark\" ? \"#8C9BFF\" : \"#2B4BFF\" }}"
+                      "fill": "{{ palette.accent }}"
                     }
                   ]
                 },
@@ -536,11 +603,12 @@
                   "content": "Today",
                   "font": "reg",
                   "fontSize": 12,
-                  "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+                  "fill": "{{ palette.muted }}"
                 },
                 {
                   "type": "group",
                   "width": 18,
+                  "if": "{{ github.contributions.streaks.longest.length > 1 }}",
                   "children": [
                     {
                       "type": "rect",
@@ -548,28 +616,30 @@
                       "y": -5.1,
                       "width": 18,
                       "height": 2.2,
-                      "fill": "{{ props.theme == \"dark\" ? \"#8C9BFF\" : \"#2B4BFF\" }}",
+                      "fill": "{{ palette.accent }}",
                       "radius": 1.1
                     }
                   ]
                 },
                 {
                   "type": "text",
+                  "if": "{{ github.contributions.streaks.longest.length > 1 }}",
                   "x": 0,
                   "y": -11.208,
-                  "content": "{{ \"Longest streak, \" + (github.contributions.streaks.longest.length | number) + (github.contributions.streaks.longest.length == 1 ? \" day\" : \" days\") }}",
+                  "content": "{{ streakText }}",
                   "font": "reg",
                   "fontSize": 12,
-                  "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+                  "fill": "{{ palette.muted }}"
                 },
                 {
                   "type": "text",
+                  "if": "{{ top > 0 }}",
                   "x": 0,
                   "y": -11.208,
-                  "content": "{{ \"Busiest on \" + [\"Sundays\", \"Mondays\", \"Tuesdays\", \"Wednesdays\", \"Thursdays\", \"Fridays\", \"Saturdays\"][busy] }}",
+                  "content": "{{ busyText }}",
                   "font": "reg",
                   "fontSize": 12,
-                  "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}"
+                  "fill": "{{ palette.muted }}"
                 }
               ]
             }

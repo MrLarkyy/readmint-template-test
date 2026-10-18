@@ -5,7 +5,7 @@
   "description": "Key facts in rows, with the languages of the public repositories and a bar of their shares.",
   "canvas": {
     "width": 840,
-    "height": "{{ 39 + 36 * ((props.labels | length) + ((github.languages | length | default(0)) > 0 ? 1 : 0) | min(8)) + (((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + ((github.languages | length | default(0)) > 0 ? 1 : 0)) < 8) ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) }}"
+    "height": "{{ 39 + 36 * ((props.labels | length) + (((props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages)) | exclude(\"name\", props.languagesHide) | length | default(0)) > 0 ? 1 : 0) | min(8)) + (((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + (((props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages)) | exclude(\"name\", props.languagesHide) | length | default(0)) > 0 ? 1 : 0)) < 8) ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) }}"
   },
   "assets": {
     "fonts": {
@@ -16,11 +16,31 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
-        }
+        },
+        "fallback": ["nsemibold"]
       },
       "reg": {
         "family": "Archivo",
         "src": "fonts/Archivo-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nreg"]
+      },
+      "nsemibold": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-SemiBold.ttf",
+        "weight": 600,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        }
+      },
+      "nreg": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-Regular.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",
@@ -57,6 +77,10 @@
           "type": "enum",
           "values": ["bytes", "repositories", "authored"],
           "default": "bytes"
+        },
+        "languagesHide": {
+          "type": "array",
+          "default": []
         },
         "logoLabels": {
           "type": "array",
@@ -99,8 +123,14 @@
         {
           "type": "group",
           "let": {
-            "sr": "{{ ((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + ((github.languages | length | default(0)) > 0 ? 1 : 0)) < 8) ? props.logosRow : -1 }}",
-            "langs": "{{ (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages)) }}"
+            "all": "{{ (props.languageShare == \"authored\" ? (github.languagesAuthored || github.languages) : (props.languageShare == \"repositories\" ? (github.languagesByRepo || github.languages) : github.languages)) }}",
+            "langs": "{{ all | exclude(\"name\", props.languagesHide) }}",
+            "lk": "{{ ((langs | length | default(0)) < (all | length | default(0)) && (langs | sum(\"share\")) > 0) ? 1 / (langs | sum(\"share\")) : 1 }}",
+            "s0": "{{ (langs[0].share | default(0)) * lk }}",
+            "s1": "{{ (langs[1].share | default(0)) * lk }}",
+            "s2": "{{ (langs[2].share | default(0)) * lk }}",
+            "nl": "{{ langs | length | default(0) }}",
+            "sr": "{{ ((props.logoNames | length | min(12)) > 0 && props.logosRow >= 0 && props.logosRow < (props.labels | length) && props.logosRow == (props.logosRow | floor) && (props.logosRow < props.languagesAfter ? props.logosRow : props.logosRow + (nl > 0 ? 1 : 0)) < 8) ? props.logosRow : -1 }}"
           },
           "children": [
             {
@@ -128,12 +158,12 @@
                 "as": "label",
                 "index": "i"
               },
-              "if": "{{ (i < props.languagesAfter ? i : i + (((github.languages | length | default(0)) > 0) ? 1 : 0)) < 8 }}",
+              "if": "{{ (i < props.languagesAfter ? i : i + ((nl > 0) ? 1 : 0)) < 8 }}",
               "children": [
                 {
                   "type": "group",
                   "x": 0,
-                  "y": "{{ 35 + (i < props.languagesAfter ? i : i + (((github.languages | length | default(0)) > 0) ? 1 : 0)) * 36 + (i > sr ? (sr >= 0 ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) : 0) }}",
+                  "y": "{{ 35 + (i < props.languagesAfter ? i : i + ((nl > 0) ? 1 : 0)) * 36 + (i > sr ? (sr >= 0 ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) : 0) }}",
                   "children": [
                     {
                       "type": "text",
@@ -276,7 +306,7 @@
               "type": "group",
               "x": 0,
               "y": "{{ 35 + (props.languagesAfter | clamp(0, (props.labels | length))) * 36 + ((props.languagesAfter | clamp(0, (props.labels | length))) > sr ? (sr >= 0 ? 24 * ((props.logoLabels | length | clamp(1, 4)) - 1) : 0) : 0) }}",
-              "if": "{{ ((github.languages | length | default(0)) > 0) && (props.languagesAfter | clamp(0, (props.labels | length))) < 8 }}",
+              "if": "{{ (nl > 0) && (props.languagesAfter | clamp(0, (props.labels | length))) < 8 }}",
               "children": [
                 {
                   "type": "text",
@@ -295,9 +325,9 @@
                     "ln0": "{{ langs[0].name | default(\"\") | truncate(40) }}",
                     "ln1": "{{ langs[1].name | default(\"\") | truncate(40) }}",
                     "ln2": "{{ langs[2].name | default(\"\") | truncate(40) }}",
-                    "lp0": "{{ \" \" + ((langs[0].share | default(0)) * 100 | round | number(0, \"en\")) + \"%\" }}",
-                    "lp1": "{{ \" \" + ((langs[1].share | default(0)) * 100 | round | number(0, \"en\")) + \"%\" }}",
-                    "lp2": "{{ \" \" + ((langs[2].share | default(0)) * 100 | round | number(0, \"en\")) + \"%\" }}",
+                    "lp0": "{{ \" \" + (s0 * 100 | round | number(0, \"en\")) + \"%\" }}",
+                    "lp1": "{{ \" \" + (s1 * 100 | round | number(0, \"en\")) + \"%\" }}",
+                    "lp2": "{{ \" \" + (s2 * 100 | round | number(0, \"en\")) + \"%\" }}",
                     "lw0": "{{ langs[0] ? (ln0 | textWidth(\"reg\", 15)) : 0 }}",
                     "lw1": "{{ langs[1] ? (ln1 | textWidth(\"reg\", 15)) : 0 }}",
                     "lw2": "{{ langs[2] ? (ln2 | textWidth(\"reg\", 15)) : 0 }}",
@@ -326,7 +356,7 @@
                           "type": "text",
                           "x": 0,
                           "y": 8.292,
-                          "content": "{{ lfit ? (lang.name | truncate(40)) : (lang.name | truncate(40) | truncateWidth(lcap, \"reg\", 15)) }} {{ lang.share * 100 | round }}%",
+                          "content": "{{ lfit ? (lang.name | truncate(40)) : (lang.name | truncate(40) | truncateWidth(lcap, \"reg\", 15)) }} {{ lang.share * lk * 100 | round }}%",
                           "font": "reg",
                           "fontSize": 15,
                           "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}"
@@ -339,16 +369,16 @@
                   "type": "group",
                   "x": "{{ 520 + 320 * (0) }}",
                   "y": 15,
-                  "width": "{{ (320 * (langs[0].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * s0 - 2 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (langs[0].share | default(0)) - 2 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * s0 - 2 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (langs[0].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * s0 - 2 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#ECEEF2\" : \"#15171C\" }}",
                       "animate": {
@@ -360,11 +390,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (langs[0].share | default(0)) - 2 | max(0)) }}"
+                              "value": "{{ 0 - (320 * s0 - 2 | max(0)) }}"
                             },
                             {
                               "offset": 0.2143,
-                              "value": "{{ 0 - (320 * (langs[0].share | default(0)) - 2 | max(0)) }}",
+                              "value": "{{ 0 - (320 * s0 - 2 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,
@@ -385,18 +415,18 @@
                 },
                 {
                   "type": "group",
-                  "x": "{{ 520 + 320 * ((langs[0].share | default(0))) }}",
+                  "x": "{{ 520 + 320 * (s0) }}",
                   "y": 15,
-                  "width": "{{ (320 * (langs[1].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * s1 - 2 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (langs[1].share | default(0)) - 2 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * s1 - 2 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (langs[1].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * s1 - 2 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#8E949D\" : \"#696E77\" }}",
                       "animate": {
@@ -408,11 +438,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (langs[1].share | default(0)) - 2 | max(0)) }}"
+                              "value": "{{ 0 - (320 * s1 - 2 | max(0)) }}"
                             },
                             {
                               "offset": 0.3333,
-                              "value": "{{ 0 - (320 * (langs[1].share | default(0)) - 2 | max(0)) }}",
+                              "value": "{{ 0 - (320 * s1 - 2 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,
@@ -433,18 +463,18 @@
                 },
                 {
                   "type": "group",
-                  "x": "{{ 520 + 320 * ((langs[0].share | default(0)) + (langs[1].share | default(0))) }}",
+                  "x": "{{ 520 + 320 * (s0 + s1) }}",
                   "y": 15,
-                  "width": "{{ (320 * (langs[2].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * s2 - 2 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (langs[2].share | default(0)) - 2 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * s2 - 2 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (langs[2].share | default(0)) - 2 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * s2 - 2 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#5A616B\" : \"#A1A6AE\" }}",
                       "animate": {
@@ -456,11 +486,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (langs[2].share | default(0)) - 2 | max(0)) }}"
+                              "value": "{{ 0 - (320 * s2 - 2 | max(0)) }}"
                             },
                             {
                               "offset": 0.4211,
-                              "value": "{{ 0 - (320 * (langs[2].share | default(0)) - 2 | max(0)) }}",
+                              "value": "{{ 0 - (320 * s2 - 2 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,
@@ -481,18 +511,18 @@
                 },
                 {
                   "type": "group",
-                  "x": "{{ 520 + 320 * ((langs[0].share | default(0)) + (langs[1].share | default(0)) + (langs[2].share | default(0))) }}",
+                  "x": "{{ 520 + 320 * (s0 + s1 + s2) }}",
                   "y": 15,
-                  "width": "{{ (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) | max(0.001) }}",
+                  "width": "{{ (320 * (1 - s0 - s1 - s2 | max(0)) - 0 | max(0)) | max(0.001) }}",
                   "height": 5,
                   "clip": true,
-                  "if": "{{ (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) > 0.5 }}",
+                  "if": "{{ (320 * (1 - s0 - s1 - s2 | max(0)) - 0 | max(0)) > 0.5 }}",
                   "children": [
                     {
                       "type": "rect",
                       "x": 0,
                       "y": 0,
-                      "width": "{{ (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) | max(0.001) }}",
+                      "width": "{{ (320 * (1 - s0 - s1 - s2 | max(0)) - 0 | max(0)) | max(0.001) }}",
                       "height": 5,
                       "fill": "{{ props.theme == \"dark\" ? \"#2A2F37\" : \"#DDE0E5\" }}",
                       "animate": {
@@ -504,11 +534,11 @@
                             },
                             {
                               "offset": 0,
-                              "value": "{{ 0 - (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) }}"
+                              "value": "{{ 0 - (320 * (1 - s0 - s1 - s2 | max(0)) - 0 | max(0)) }}"
                             },
                             {
                               "offset": 0.4884,
-                              "value": "{{ 0 - (320 * (1 - (langs[0].share | default(0)) - (langs[1].share | default(0)) - (langs[2].share | default(0)) | max(0)) - 0 | max(0)) }}",
+                              "value": "{{ 0 - (320 * (1 - s0 - s1 - s2 | max(0)) - 0 | max(0)) }}",
                               "easing": {
                                 "x1": 0.2,
                                 "y1": 0.8,

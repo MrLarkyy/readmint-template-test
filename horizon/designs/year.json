@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/MrLarkyy/Readmint/main/packages/format/schema/design-v0.schema.json",
   "version": 0,
   "title": "The last twelve months as a terrain",
-  "description": "The contributions of the last twelve months as a lit, shaded 3D terrain, its peaks in the accent colour, with the total, the longest streak and the busiest weekday.",
+  "description": "The contributions of the last twelve months as a lit, shaded 3D terrain, its peaks in the accent colour, with the total, the longest streak and, when the year has contributions, the busiest weekday.",
   "canvas": {
     "width": 840,
     "height": 384
@@ -16,11 +16,31 @@
         "licence": {
           "embedding": "allowed",
           "name": "OFL-1.1"
+        },
+        "fallback": ["nxb"]
+      },
+      "nxb": {
+        "family": "Noto Sans",
+        "src": "fonts/NotoSans-ExtraCondensedExtraBold.ttf",
+        "weight": 800,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
         }
       },
       "mono": {
         "family": "Geist Mono",
         "src": "fonts/GeistMono-Regular.ttf",
+        "weight": 400,
+        "licence": {
+          "embedding": "allowed",
+          "name": "OFL-1.1"
+        },
+        "fallback": ["nm"]
+      },
+      "nm": {
+        "family": "Noto Sans Mono",
+        "src": "fonts/NotoSansMono-Regular.ttf",
         "weight": 400,
         "licence": {
           "embedding": "allowed",
@@ -32,6 +52,20 @@
   "animation": {
     "duration": 60000,
     "loop": true
+  },
+  "palette": {
+    "light": {
+      "muted": "#6E6E6E",
+      "accent": "#E8590C",
+      "accentText": "#C8460A",
+      "ink": "#141414"
+    },
+    "dark": {
+      "muted": "#948F88",
+      "accent": "#FF8A3D",
+      "accentText": "#FF8A3D",
+      "ink": "#F0EEEA"
+    }
   },
   "components": {
     "card": {
@@ -160,7 +194,7 @@
                           "content": "{{ day.date | date(\"MMM\") | upper }}",
                           "font": "mono",
                           "fontSize": 10,
-                          "fill": "{{ props.theme == \"dark\" ? \"#948F88\" : \"#6E6E6E\" }}"
+                          "fill": "{{ palette.muted }}"
                         }
                       ]
                     }
@@ -180,7 +214,7 @@
                       "type": "path",
                       "d": "M0 0 v-2 m0 -3 v-2 m0 -3 v-2 m0 -3 v-2 m0 -3 v-2 m0 -3 v-2 m0 -3 v-2 m0 -3 v-1",
                       "fill": "none",
-                      "stroke": "{{ props.theme == \"dark\" ? \"#FF8A3D\" : \"#E8590C\" }}",
+                      "stroke": "{{ palette.accent }}",
                       "strokeWidth": 1,
                       "x": 0,
                       "y": 0
@@ -191,7 +225,7 @@
                       "y": -3.5,
                       "width": 7,
                       "height": 7,
-                      "fill": "{{ props.theme == \"dark\" ? \"#FF8A3D\" : \"#E8590C\" }}"
+                      "fill": "{{ palette.accent }}"
                     },
                     {
                       "type": "ellipse",
@@ -200,7 +234,7 @@
                       "width": 7,
                       "height": 7,
                       "fill": "none",
-                      "stroke": "{{ props.theme == \"dark\" ? \"#FF8A3D\" : \"#E8590C\" }}",
+                      "stroke": "{{ palette.accent }}",
                       "strokeWidth": 0.6,
                       "animate": {
                         "opacity": {
@@ -244,7 +278,7 @@
                       "content": "today",
                       "font": "mono",
                       "fontSize": 10.5,
-                      "fill": "{{ props.theme == \"dark\" ? \"#FF8A3D\" : \"#C8460A\" }}"
+                      "fill": "{{ palette.accentText }}"
                     }
                   ]
                 }
@@ -257,7 +291,7 @@
               "content": "contributions.last(12.months)",
               "font": "mono",
               "fontSize": 11,
-              "fill": "{{ props.theme == \"dark\" ? \"#948F88\" : \"#6E6E6E\" }}"
+              "fill": "{{ palette.muted }}"
             },
             {
               "type": "group",
@@ -317,7 +351,7 @@
                               "align": "middle",
                               "font": "xb",
                               "fontSize": 100,
-                              "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}",
+                              "fill": "{{ palette.ink }}",
                               "animate": {
                                 "y": {
                                   "keyframes": [
@@ -367,7 +401,7 @@
                       "content": ",",
                       "font": "xb",
                       "fontSize": 100,
-                      "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}",
+                      "fill": "{{ palette.ink }}",
                       "align": "middle"
                     }
                   ]
@@ -381,7 +415,7 @@
               "content": "{{ (github.contributions.total) | compact }}",
               "font": "xb",
               "fontSize": 100,
-              "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}",
+              "fill": "{{ palette.ink }}",
               "if": "{{ (github.contributions.total) >= 10000000 }}"
             },
             {
@@ -393,7 +427,7 @@
               "content": "{{ (github.contributions.streaks.longest.length | number) + (github.contributions.streaks.longest.length == 1 ? \" DAY\" : \" DAYS\") }}",
               "font": "xb",
               "fontSize": 38,
-              "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}"
+              "fill": "{{ palette.ink }}"
             },
             {
               "type": "text",
@@ -404,7 +438,7 @@
               "content": "longest_streak",
               "font": "mono",
               "fontSize": 11,
-              "fill": "{{ props.theme == \"dark\" ? \"#948F88\" : \"#6E6E6E\" }}"
+              "fill": "{{ palette.muted }}"
             },
             {
               "type": "text",
@@ -425,6 +459,7 @@
                 "s6": "{{ (d[o6 + 0].count || 0) + (d[o6 + 7].count || 0) + (d[o6 + 14].count || 0) + (d[o6 + 21].count || 0) + (d[o6 + 28].count || 0) + (d[o6 + 35].count || 0) + (d[o6 + 42].count || 0) + (d[o6 + 49].count || 0) + (d[o6 + 56].count || 0) + (d[o6 + 63].count || 0) + (d[o6 + 70].count || 0) + (d[o6 + 77].count || 0) + (d[o6 + 84].count || 0) + (d[o6 + 91].count || 0) + (d[o6 + 98].count || 0) + (d[o6 + 105].count || 0) + (d[o6 + 112].count || 0) + (d[o6 + 119].count || 0) + (d[o6 + 126].count || 0) + (d[o6 + 133].count || 0) + (d[o6 + 140].count || 0) + (d[o6 + 147].count || 0) + (d[o6 + 154].count || 0) + (d[o6 + 161].count || 0) + (d[o6 + 168].count || 0) + (d[o6 + 175].count || 0) + (d[o6 + 182].count || 0) + (d[o6 + 189].count || 0) + (d[o6 + 196].count || 0) + (d[o6 + 203].count || 0) + (d[o6 + 210].count || 0) + (d[o6 + 217].count || 0) + (d[o6 + 224].count || 0) + (d[o6 + 231].count || 0) + (d[o6 + 238].count || 0) + (d[o6 + 245].count || 0) + (d[o6 + 252].count || 0) + (d[o6 + 259].count || 0) + (d[o6 + 266].count || 0) + (d[o6 + 273].count || 0) + (d[o6 + 280].count || 0) + (d[o6 + 287].count || 0) + (d[o6 + 294].count || 0) + (d[o6 + 301].count || 0) + (d[o6 + 308].count || 0) + (d[o6 + 315].count || 0) + (d[o6 + 322].count || 0) + (d[o6 + 329].count || 0) + (d[o6 + 336].count || 0) + (d[o6 + 343].count || 0) + (d[o6 + 350].count || 0) + (d[o6 + 357].count || 0) + (d[o6 + 364].count || 0) + (d[o6 + 371].count || 0) }}",
                 "busy": "{{ (s0 >= s1 && s0 >= s2 && s0 >= s3 && s0 >= s4 && s0 >= s5 && s0 >= s6 ? 0 : (s1 >= s2 && s1 >= s3 && s1 >= s4 && s1 >= s5 && s1 >= s6 ? 1 : (s2 >= s3 && s2 >= s4 && s2 >= s5 && s2 >= s6 ? 2 : (s3 >= s4 && s3 >= s5 && s3 >= s6 ? 3 : (s4 >= s5 && s4 >= s6 ? 4 : (s5 >= s6 ? 5 : 6)))))) }}"
               },
+              "if": "{{ ((d | max(\"count\")) || 0) > 0 }}",
               "x": 540,
               "width": 300,
               "align": "end",
@@ -432,7 +467,7 @@
               "content": "{{ [\"SUNDAYS\", \"MONDAYS\", \"TUESDAYS\", \"WEDNESDAYS\", \"THURSDAYS\", \"FRIDAYS\", \"SATURDAYS\"][busy] }}",
               "font": "xb",
               "fontSize": 38,
-              "fill": "{{ props.theme == \"dark\" ? \"#F0EEEA\" : \"#141414\" }}"
+              "fill": "{{ palette.ink }}"
             },
             {
               "type": "text",
@@ -440,10 +475,11 @@
               "width": 840,
               "align": "end",
               "y": 122.495,
+              "if": "{{ ((d | max(\"count\")) || 0) > 0 }}",
               "content": "busiest_day",
               "font": "mono",
               "fontSize": 11,
-              "fill": "{{ props.theme == \"dark\" ? \"#948F88\" : \"#6E6E6E\" }}"
+              "fill": "{{ palette.muted }}"
             }
           ]
         }
